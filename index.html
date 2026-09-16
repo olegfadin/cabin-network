@@ -270,8 +270,9 @@ button.b:focus-visible{outline:2px solid var(--dn);outline-offset:2px}
 .ctl .hint{font-size:11.5px;color:var(--faint);margin-top:3px;line-height:1.3}
 .sub2{font-family:var(--fm);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px;padding-top:15px;border-top:1px solid var(--ruleSoft)}
 .toggles{display:flex;flex-wrap:wrap;gap:10px 22px}
-.tg{display:flex;align-items:center;gap:8px;font-size:13.5px}
+.tg{display:flex;align-items:center;gap:8px;font-size:13.5px;cursor:pointer}
 .tg input{accent-color:var(--up);width:16px;height:16px}
+.model-feedback{margin:16px 0 0;padding:12px 14px;border-left:3px solid var(--dn);background:var(--surface2);font-size:13.5px;line-height:1.6}
 
 /* ---------- meters ---------- */
 .m{min-width:150px}
@@ -608,6 +609,7 @@ footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--rule);font-fa
         <label class="tg"><input type="checkbox" id="mCache"> Onboard cache, 60% video hit rate</label>
         <label class="tg"><input type="checkbox" id="mRes"> Streaming resolution ceiling (720p)</label>
       </div>
+      <p class="model-feedback" id="mitigationStatus" role="status" aria-live="polite" aria-atomic="true"></p>
     </div>
     <figcaption><b>Figure 2 — assumptions.</b> Defaults describe a busy long-haul sector, not an average one. Networks are sized for the busy day; the "network-average sector" preset drops every input to Emirates' published system figures so the two cases can be compared directly.</figcaption>
   </figure>
@@ -638,7 +640,7 @@ footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--rule);font-fa
 
   <h4 style="margin-top:38px;font-size:18px;font-weight:600">Offered load against available capacity</h4>
   <p class="lead" style="margin:6px 0 16px">Devices aboard, active sessions and offered load are computed per cabin configuration. Capacity is terminals × per-terminal rate × beam availability. Crew are counted separately and added.</p>
-  <p class="cap2" style="margin:0 0 16px;max-width:88ch">These are <strong>unmitigated</strong> figures: the model with every control switched off, which is the network as it stands today. They are deliberately not the end state. <strong>Four software mitigations, all available above, bring the same aircraft back inside its envelope in both directions</strong> — which is the actual argument of this paper and the reason the table is presented before the remedies rather than after them.</p>
+  <p class="cap2" id="capacityScenario" style="margin:0 0 16px;max-width:88ch">These figures update from the assumptions and mitigations selected above. Mitigations change traffic rates and downlink/uplink load; seats, aircraft counts and associated devices remain the same.</p>
 
   <figure style="margin-top:6px">
     <div class="tw">
@@ -1740,6 +1742,6 @@ footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--rule);font-fa
 
 </div>
 <script src="assets/data.js"></script>
-<script src="assets/app.js"></script>
+<script src="assets/app.js?v=20260916-mitigations"></script>
 <script src="assets/app2.js"></script>
 <script src="assets/app3.js"></script>
