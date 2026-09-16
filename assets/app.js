@@ -116,6 +116,12 @@ const PRESETS = {
   stress:{lf:97, tr:92, dev:200, conc:52, crew:55, str:30, call:9,  bg:10, ab:7, abr:100, dnp:667, upp:100, beam:55,  mHeavy:0,mBg:0,mCache:0,mRes:0},
   mitig: {lf:90, tr:85, dev:180, conc:42, crew:35, str:20, call:6,  bg:7,  ab:5, abr:85,  dnp:667, upp:100, beam:100, mHeavy:1,mBg:1,mCache:1,mRes:1}
 };
+const MITIGATIONS = [
+  {id:"mHeavy", label:"Heavy-user shaping"},
+  {id:"mBg", label:"Background-sync suppression"},
+  {id:"mCache", label:"Onboard caching"},
+  {id:"mRes", label:"720p streaming ceiling"}
+];
 
 const ANT_SVG = `<svg viewBox="0 0 24 23" aria-hidden="true" fill="none" stroke="currentColor"
   stroke-width="2.6" stroke-linecap="round">
@@ -235,6 +241,19 @@ function renderCapacity(){
     <div class="hl"><div class="k">Over capacity</div><div class="v" style="color:${over?'var(--crit)':'var(--ok)'}">${over} of ${AC.length}</div><div class="n">configurations, either direction</div></div>
     <div class="hl"><div class="k">Aircraft affected</div><div class="v" style="color:${hitNow?'var(--crit)':'var(--ok)'}">${hitNow} <small>→ ${hitThen}</small></div><div class="n">of ${unitsNow} flying today → ${unitsThen} once orders deliver</div></div>`;
 
+  const active = MITIGATIONS.filter(c=>v[c.id]);
+  const scenario = active.length ? `${active.length} of 4 mitigations enabled: ${active.map(c=>c.label).join(", ")}.` : "Unmitigated — all four controls are off.";
+  const status = el("mitigationStatus");
+  if(status) status.textContent = `${scenario} Current mean per session: ${T.dn.toFixed(2)} Mbps down / ${T.up.toFixed(2)} Mbps up. Worst fleet uplink load: ${worstUp.toFixed(0)}%. Both tables below reflect these settings.`;
+  const caption = el("capacityScenario");
+  if(caption) caption.textContent = `${scenario} The downlink and uplink columns show the current calculated load. Mitigations change traffic rates, not seats, aircraft counts or associated devices.`;
+  document.querySelectorAll("#presets button").forEach(b=>{
+    const preset = PRESETS[b.dataset.p];
+    const matches = CTLS.every(c=>+el(c.id).value===preset[c.id]) && MITIGATIONS.every(c=>v[c.id]===!!preset[c.id]);
+    b.classList.toggle("on", matches);
+    b.setAttribute("aria-pressed", String(matches));
+  });
+
   const st = el("sumTiles");
   if(st) st.innerHTML = `
     <div class="hl"><div class="k">Downlink at a busy sector</div><div class="v" style="color:var(--ser)">~100%</div><div class="n">of available, before mitigation</div></div>
@@ -245,7 +264,13 @@ function renderCapacity(){
     <div class="hl"><div class="k">V3 uplink improvement</div><div class="v" style="color:var(--dn)">22×</div><div class="n">against 10× downlink — their constraint too</div></div>`;
 }
 CTLS.forEach(c=> el(c.id) && el(c.id).addEventListener("input", renderCapacity));
-["mHeavy","mBg","mCache","mRes"].forEach(id=> el(id) && el(id).addEventListener("change", renderCapacity));
+MITIGATIONS.forEach(({id})=>{
+  const control = el(id);
+  if(control){
+    control.addEventListener("input", renderCapacity);
+    control.addEventListener("change", renderCapacity);
+  }
+});
 document.querySelectorAll("#presets button").forEach(b=>{
   b.addEventListener("click", ()=>{
     const p = PRESETS[b.dataset.p];
