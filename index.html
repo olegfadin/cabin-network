@@ -1,0 +1,1745 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Cabin Network — Emirates connectivity strategy</title>
+<meta name="description" content="Emirates bought the best satellite bearer in the world. What a passenger experiences is decided in four places downstream of it: the capacity of the pipe, the edges of the map, the radio in the cabin and the policy layer in between. Three of the four are software and contracts.">
+<meta name="author" content="Aleh Fadzin">
+<meta name="theme-color" content="#EDEFF1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1013" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<!-- Link previews for the published GitHub Pages site. -->
+<link rel="canonical" href="https://olegfadin.github.io/cabin-network/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="The Cabin Network">
+<meta property="og:title" content="The bearer is not the product">
+<meta property="og:description" content="A cabin connectivity strategy for Emirates: capacity, coverage, cabin radio and the policy layer — with the models left interactive.">
+<meta property="og:url" content="https://olegfadin.github.io/cabin-network/">
+<meta property="og:image" content="https://olegfadin.github.io/cabin-network/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The bearer is not the product">
+<meta name="twitter:description" content="A cabin connectivity strategy for Emirates: capacity, coverage, cabin radio and the policy layer — with the models left interactive.">
+<meta name="twitter:image" content="https://olegfadin.github.io/cabin-network/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Azeret+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --ink:#171A1F; --ink2:#3A414B; --muted:#616B78; --faint:#98A1AC;
+  --paper:#EDEFF1; --surface:#FCFCFB; --surface2:#E2E5E9;
+  --rule:#C6CBD2; --ruleSoft:#DADEE3;
+  --dn:#2F6BD8; --up:#B5387F;
+  --ok:#1F7A4D; --warn:#9A6B10; --ser:#B4531E; --crit:#A8222B;
+  --em:#D71921; --route:#2E4A63;
+  --sea:#D3E0EC; --land:#AAB2BB;
+  --shadow:0 1px 2px rgba(23,26,31,.07),0 10px 26px -20px rgba(23,26,31,.45);
+  --navbg:rgba(252,252,251,.93);
+  --fd:"Barlow","Helvetica Neue",Arial,sans-serif;
+  --fm:"Azeret Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --navh:54px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ink:#E8EBEE; --ink2:#C2C8CF; --muted:#919AA5; --faint:#6B747E;
+  --paper:#0E1013; --surface:#191A19; --surface2:#23262A;
+  --rule:#333941; --ruleSoft:#262A2F;
+  --dn:#5C93E0; --up:#CC6BA5;
+  --ok:#4FBF87; --warn:#D9AC4E; --ser:#E8895C; --crit:#EF6B73;
+  --em:#F0464E; --route:#9FB6C9;
+  --sea:#141C24; --land:#3B434C;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 12px 30px -22px rgba(0,0,0,.95);
+  --navbg:rgba(25,26,25,.93);
+}}
+:root[data-theme="dark"]{
+  --ink:#E8EBEE; --ink2:#C2C8CF; --muted:#919AA5; --faint:#6B747E;
+  --paper:#0E1013; --surface:#191A19; --surface2:#23262A;
+  --rule:#333941; --ruleSoft:#262A2F;
+  --dn:#5C93E0; --up:#CC6BA5;
+  --ok:#4FBF87; --warn:#D9AC4E; --ser:#E8895C; --crit:#EF6B73;
+  --em:#F0464E; --route:#9FB6C9;
+  --sea:#141C24; --land:#3B434C;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 12px 30px -22px rgba(0,0,0,.95);
+  --navbg:rgba(25,26,25,.93);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--fd);font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px 100px}
+
+/* ---------- fixed navigation ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:90;height:var(--navh);
+  background:var(--navbg);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--rule);padding-top:env(safe-area-inset-top,0px)}
+.navin{max-width:1240px;margin:0 auto;padding:0 24px;height:var(--navh);display:flex;align-items:center;gap:22px}
+.navbrand{font-weight:700;font-size:14.5px;letter-spacing:-.02em;white-space:nowrap;flex:0 0 auto}
+.navbrand span{color:var(--em)}
+.navlinks{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1 1 auto;justify-content:flex-end}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{font-family:var(--fm);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  text-decoration:none;padding:7px 9px;border-radius:3px;white-space:nowrap;transition:color .15s,background .15s}
+.navlinks a:hover{color:var(--ink);background:var(--surface2)}
+.navlinks a.on{color:var(--surface);background:var(--ink)}
+@media(max-width:900px){.navbrand{font-size:13px}.navlinks a{padding:7px 7px;font-size:10px}}
+@media(max-width:620px){.navbrand{display:none}.navlinks{justify-content:flex-start}}
+.prog{position:fixed;top:calc(var(--navh) + env(safe-area-inset-top,0px));left:0;height:2px;background:var(--em);z-index:91;width:0;transition:width .1s linear}
+
+/* ---------- cover ---------- */
+.cover{padding:calc(var(--navh) + 34px) 0 26px;border-bottom:2px solid var(--ink)}
+.hero{position:relative;width:100%;aspect-ratio:2400/1029;overflow:hidden;background:#0B1624;margin:0 0 26px;box-shadow:var(--shadow)}
+.hero picture{display:contents}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.hero .scrim{position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(6,14,26,.90) 0%,rgba(6,14,26,.74) 34%,rgba(6,14,26,.30) 58%,rgba(6,14,26,0) 78%),
+  linear-gradient(0deg,rgba(6,14,26,.55) 0%,rgba(6,14,26,0) 46%)}
+.hero .rf{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero .heroin{position:absolute;left:0;right:0;bottom:0;padding:0 40px 34px;color:#fff}
+.hero .kick{color:#E7B667;margin-bottom:14px}
+.hero .kick .s{color:rgba(255,255,255,.34)} .hero .kick .d{color:rgba(255,255,255,.72)}
+.hero h1{color:#fff;margin:0;text-shadow:0 2px 26px rgba(4,10,20,.7)}
+.hero .hcred{position:absolute;right:12px;bottom:8px;font-family:var(--fm);font-size:9px;letter-spacing:.06em;
+  text-transform:uppercase;color:rgba(255,255,255,.42)}
+@media(max-width:880px){
+  .hero{aspect-ratio:3/2}
+  .hero img{object-position:center}
+  .hero .rf{display:none}
+  .hero .scrim{background:linear-gradient(0deg,rgba(6,14,26,.80) 0%,rgba(6,14,26,.18) 40%,rgba(6,14,26,0) 62%)}
+  .hero .heroin{padding:0 22px 20px}
+}
+@media(max-width:560px){
+  .hero{overflow:visible;aspect-ratio:auto;box-shadow:none;background:transparent}
+  .hero img{position:static;width:100%;height:auto;aspect-ratio:auto;box-shadow:var(--shadow)}
+  .hero .heroin{position:static;padding:18px 0 0;color:inherit}
+  .hero .scrim{display:none}
+  .hero .kick{color:var(--em)}
+  .hero .kick .s{color:var(--faint)} .hero .kick .d{color:var(--muted)}
+  .hero h1{color:var(--ink);text-shadow:none}
+  .hero .hcred{position:static;display:block;text-align:left;color:var(--faint);margin-top:14px}
+}
+.kick{font-family:var(--fm);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--em);margin:0 0 16px;display:flex;flex-wrap:wrap;gap:10px}
+.kick .s{color:var(--faint)} .kick .d{color:var(--muted)}
+h1{font-weight:700;font-size:clamp(34px,6.2vw,68px);line-height:.98;letter-spacing:-.035em;margin:0 0 18px;text-wrap:balance;max-width:19ch}
+.sub{font-size:clamp(17px,2.2vw,23px);color:var(--ink2);max-width:60ch;margin:0 0 20px;line-height:1.36;font-weight:500;letter-spacing:-.012em}
+.sub b{color:var(--em);font-weight:600}
+.byline{font-family:var(--fm);font-size:11.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 20px;padding-top:6px}
+.byline .aka{color:var(--faint)}
+a.lnk{color:inherit;text-decoration:none;border-bottom:1px solid color-mix(in srgb,currentColor 45%,transparent);transition:color .15s,border-color .15s}
+a.lnk:hover{color:var(--em);border-bottom-color:var(--em)}
+footer a.lnk{color:var(--muted)}
+
+/* ---------- part dividers ---------- */
+.part{margin:78px 0 0;padding:26px 0 0;border-top:3px solid var(--ink)}
+.part .pn{font-family:var(--fm);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--em)}
+.part h2{font-weight:700;font-size:clamp(26px,4vw,42px);letter-spacing:-.03em;line-height:1.03;margin:8px 0 12px;max-width:22ch}
+.part p{margin:0;color:var(--muted);max-width:76ch;font-size:15.5px}
+
+/* ---------- sections ---------- */
+section{padding-top:46px;scroll-margin-top:calc(var(--navh) + 20px)}
+.sh{display:grid;grid-template-columns:110px 1fr;gap:0 20px;align-items:baseline;border-top:1px solid var(--ink);padding-top:12px;margin-bottom:22px}
+.sh .t{font-family:var(--fm);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:8px}
+.sh h3{font-weight:600;font-size:clamp(22px,3vw,31px);letter-spacing:-.028em;line-height:1.12;margin:0}
+.sh p{grid-column:2;margin:8px 0 0;color:var(--muted);max-width:76ch;font-size:14.5px}
+@media(max-width:760px){.sh{grid-template-columns:1fr;gap:6px}.sh .t{padding-top:0}.sh p{grid-column:1}}
+
+.body{max-width:73ch}
+.body p{margin:0 0 15px}
+.body h4{font-size:17px;font-weight:600;margin:28px 0 9px;letter-spacing:-.012em}
+.body h4:first-child{margin-top:0}
+.body ul,.body ol{margin:0 0 16px;padding-left:20px}
+.body li{margin-bottom:9px}
+.body strong{font-weight:600}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:34px}
+.cols .body{max-width:none}
+.lead{font-size:17.5px;color:var(--ink2);line-height:1.5;max-width:70ch}
+.cap2{font-size:12.5px;color:var(--muted);margin:10px 0 0;max-width:96ch;line-height:1.5}
+code{font-family:var(--fm);font-size:.85em;background:var(--surface2);padding:1px 5px;border-radius:3px}
+a{color:var(--dn)}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;border:1px solid var(--rule);background:var(--surface);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%}
+table.w1{min-width:1060px} table.w2{min-width:1300px}
+th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--ruleSoft);vertical-align:top;font-size:13.5px}
+thead th{font-family:var(--fm);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--surface2);border-bottom:1px solid var(--rule);white-space:nowrap;font-weight:500;vertical-align:bottom}
+tbody tr:last-child td{border-bottom:0}
+tbody tr.dim td{background:color-mix(in srgb,var(--surface2) 45%,transparent);color:var(--muted)}
+tfoot td{font-family:var(--fm);font-size:12.5px;font-weight:500;background:var(--surface2);border-top:1px solid var(--rule);font-variant-numeric:tabular-nums}
+td.n{font-family:var(--fm);font-variant-numeric:tabular-nums;white-space:nowrap;font-size:12.5px}
+td b{font-weight:600}
+
+.pill{display:inline-block;font-family:var(--fm);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px 2px;border:1px solid;white-space:nowrap;border-radius:2px}
+.p-ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 48%,transparent);background:color-mix(in srgb,var(--ok) 11%,transparent)}
+.p-warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 48%,transparent);background:color-mix(in srgb,var(--warn) 12%,transparent)}
+.p-ser{color:var(--ser);border-color:color-mix(in srgb,var(--ser) 48%,transparent);background:color-mix(in srgb,var(--ser) 12%,transparent)}
+.p-crit{color:var(--crit);border-color:color-mix(in srgb,var(--crit) 52%,transparent);background:color-mix(in srgb,var(--crit) 13%,transparent)}
+.p-off{color:var(--muted);border-color:var(--rule);background:transparent}
+.p-dn{color:var(--dn);border-color:color-mix(in srgb,var(--dn) 45%,transparent);background:color-mix(in srgb,var(--dn) 9%,transparent)}
+
+/* ---------- stat tiles ---------- */
+.headline{display:grid;grid-template-columns:repeat(auto-fit,minmax(176px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0 0}
+.hl{background:var(--surface);padding:15px 17px}
+.hl .k{font-family:var(--fm);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.hl .v{font-weight:700;font-size:26px;letter-spacing:-.02em;line-height:1.05;font-variant-numeric:tabular-nums}
+.hl .v small{font-size:15px;color:var(--muted);font-weight:500}
+.hl .n{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.35}
+
+/* ---------- callouts ---------- */
+.callout{border-left:3px solid var(--em);background:var(--surface);padding:16px 21px;margin:24px 0;box-shadow:var(--shadow)}
+.callout .l{font-family:var(--fm);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--em);display:block;margin-bottom:7px}
+.callout p{margin:0;font-size:14.8px;max-width:84ch}
+.callout p+p{margin-top:11px}
+.callout.ok{border-left-color:var(--ok)} .callout.ok .l{color:var(--ok)}
+.callout.dn{border-left-color:var(--dn)} .callout.dn .l{color:var(--dn)}
+.callout.cr{border-left-color:var(--crit)} .callout.cr .l{color:var(--crit)}
+.callout.wn{border-left-color:var(--warn)} .callout.wn .l{color:var(--warn)}
+
+/* ---------- figures ---------- */
+figure{margin:26px 0 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:10px;max-width:96ch;line-height:1.5}
+figcaption b{color:var(--ink2)}
+.panel{background:var(--surface);border:1px solid var(--rule);box-shadow:var(--shadow);padding:20px 22px}
+.imgslot{background:var(--surface2);border:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:30px 24px;min-height:210px;border-radius:2px}
+.imgslot .in{max-width:46ch}
+.imgslot .t{font-family:var(--fm);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--em);margin-bottom:8px}
+.imgslot .d{font-size:13.5px;color:var(--muted);line-height:1.5}
+img.ph{width:100%;height:auto;display:block;border:1px solid var(--rule);box-shadow:var(--shadow)}
+img.ph.tall{max-width:560px;margin:0 auto}
+.figcred{font-family:var(--fm);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);
+  margin-top:6px;display:block;line-height:1.5}
+p.figcred{margin:14px 0 0;padding-top:10px;border-top:1px solid var(--ruleSoft);max-width:96ch}
+.figpair{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px;align-items:start}
+.figpair>*{min-width:0}
+@media(max-width:860px){.figpair{grid-template-columns:1fr}}
+.figpair .dt{font-family:var(--fm);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--em);margin:0 0 8px}
+ul.anno{list-style:none;margin:14px 0 0;padding:0;border-top:1px solid var(--ruleSoft)}
+ul.anno li{margin:0;padding:11px 0;border-bottom:1px solid var(--ruleSoft);font-size:13px;color:var(--muted);line-height:1.45}
+ul.anno li b{color:var(--ink);font-weight:600;display:block;font-size:13.5px;margin-bottom:2px}
+
+.fl{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:13px;
+  line-height:1;vertical-align:-1px;letter-spacing:0}
+
+/* ---------- passenger quote cards ---------- */
+.qgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:6px}
+.qc{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--ser);
+  box-shadow:var(--shadow);padding:14px 17px 13px;display:flex;flex-direction:column}
+.qc .qh{display:flex;align-items:center;gap:9px;margin-bottom:10px;flex-wrap:wrap}
+.qc .qh img{height:20px;width:auto;max-width:76px;object-fit:contain;filter:grayscale(1);display:block;opacity:.85}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .qc .qh img{filter:grayscale(1) invert(1) brightness(1.7)}}
+:root[data-theme="dark"] .qc .qh img{filter:grayscale(1) invert(1) brightness(1.7)}
+.qc .al{font-weight:600;font-size:13.5px;color:var(--ink)}
+.qc .mt{font-family:var(--fm);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+.qc blockquote{margin:0 0 10px;font-size:14px;line-height:1.5;color:var(--ink2)}
+.qc blockquote em{color:var(--ink);font-style:normal;font-weight:600}
+.qc .src{margin-top:auto;font-family:var(--fm);font-size:10px;letter-spacing:.04em;color:var(--muted);
+  padding-top:9px;border-top:1px solid var(--ruleSoft)}
+
+/* ---------- vendor chips ---------- */
+.vend{margin:22px 0 0;border:1px solid var(--rule);background:var(--surface);box-shadow:var(--shadow);padding:16px 20px}
+.vend .vt{font-family:var(--fm);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-bottom:11px}
+.vrow{display:flex;flex-wrap:wrap;gap:8px}
+.vchip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--ruleSoft);background:var(--surface2);
+  border-radius:3px;padding:5px 10px;font-size:12.5px;color:var(--ink2);filter:grayscale(1);opacity:.78;transition:opacity .15s,filter .15s}
+.vchip:hover{opacity:1;filter:grayscale(0)}
+.vchip img.lg{height:15px;width:auto;max-width:110px;object-fit:contain;display:block;filter:grayscale(1)}
+.vchip img.lg.inv{filter:grayscale(1) invert(1) brightness(.5)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  .vchip img.lg{filter:grayscale(1) invert(1) brightness(1.7)}
+  .vchip img.lg.inv{filter:grayscale(1) brightness(1.15)}
+}}
+:root[data-theme="dark"] .vchip img.lg{filter:grayscale(1) invert(1) brightness(1.7)}
+:root[data-theme="dark"] .vchip img.lg.inv{filter:grayscale(1) brightness(1.15)}
+.vchip .nm{display:none}
+.vchip.nolg .nm{display:inline}
+.vchip .q{font-weight:500}
+.vchip .cat{font-family:var(--fm);font-size:9.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.06em}
+
+/* ---------- controls ---------- */
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;padding-bottom:15px;border-bottom:1px solid var(--ruleSoft)}
+button.b{font-family:var(--fd);font-weight:600;font-size:12.5px;padding:7px 13px;border:1px solid var(--rule);background:var(--surface2);color:var(--ink);cursor:pointer;border-radius:2px}
+button.b:hover{border-color:var(--ink)}
+button.b.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+button.b:focus-visible{outline:2px solid var(--dn);outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:15px 26px}
+.ctl label{display:block;font-family:var(--fm);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.ctl.hv label{color:var(--crit)}
+.ctl .row{display:flex;align-items:center;gap:10px}
+.ctl input[type=range]{flex:1;accent-color:var(--dn);min-width:0}
+.ctl.hv input[type=range]{accent-color:var(--crit)}
+.ctl .val{font-family:var(--fm);font-size:13px;font-weight:500;min-width:62px;text-align:right;font-variant-numeric:tabular-nums}
+.ctl .hint{font-size:11.5px;color:var(--faint);margin-top:3px;line-height:1.3}
+.sub2{font-family:var(--fm);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px;padding-top:15px;border-top:1px solid var(--ruleSoft)}
+.toggles{display:flex;flex-wrap:wrap;gap:10px 22px}
+.tg{display:flex;align-items:center;gap:8px;font-size:13.5px}
+.tg input{accent-color:var(--up);width:16px;height:16px}
+
+/* ---------- meters ---------- */
+.m{min-width:150px}
+.mtop{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px}
+.mlab{font-family:var(--fm);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mval{font-family:var(--fm);font-size:12.5px;font-weight:500;font-variant-numeric:tabular-nums}
+.track{height:8px;background:var(--surface2);border-radius:1px;overflow:hidden}
+.fill{height:100%;border-radius:0 2px 2px 0;transition:width .18s ease}
+.mnote{font-family:var(--fm);font-size:10.5px;color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
+.fu{display:flex;align-items:baseline;gap:5px;font-size:14px;font-variant-numeric:tabular-nums}
+.fu b{font-weight:600} .fu b.gr{color:var(--dn)} .fu .ar{color:var(--faint);font-size:12px}
+.fu.dim{opacity:.42;font-size:13px}
+.fn{font-family:inherit;font-size:11px;color:var(--muted);white-space:normal;max-width:172px;line-height:1.3;margin-top:3px}
+
+/* aircraft drawings */
+.draw{position:relative;flex:0 0 auto}
+.draw img{width:100%;height:auto;display:block}
+.ant{position:absolute;width:13px;height:12px;transform:translate(-50%,-92%);color:var(--em);pointer-events:none}
+.ant svg{width:100%;height:100%;display:block;filter:drop-shadow(0 0 1.5px var(--surface))}
+.thumb{width:212px;flex:0 0 auto;display:block}
+td.ac{min-width:368px}
+.acw{display:flex;align-items:center;gap:14px}
+.acw .nm{font-weight:600;font-size:14px;line-height:1.2}
+.acw .cf{font-size:11.5px;color:var(--muted);line-height:1.35;margin-top:2px}
+.acw .st{display:inline-block;margin-top:4px}
+
+/* globes */
+.globes{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:780px){.globes{grid-template-columns:1fr}}
+.gwrap{text-align:center}
+.gwrap canvas{width:100%;height:auto;max-width:420px;cursor:grab;touch-action:none;display:block;margin:0 auto}
+.gwrap canvas:active{cursor:grabbing}
+.gcap{font-family:var(--fm);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+#gMain{width:100%;max-width:640px;height:auto;display:block;margin:0 auto;cursor:grab;touch-action:none}
+#gMain:active{cursor:grabbing}
+.legend{display:flex;flex-wrap:wrap;gap:9px 22px;margin:14px 0 0;font-size:12.5px;color:var(--muted)}
+.lg{display:flex;align-items:center;gap:7px}
+.sw{width:13px;height:13px;border-radius:3px;flex:0 0 auto;border:1px solid rgba(128,128,128,.35)}
+.ln{width:20px;height:3px;border-radius:2px;flex:0 0 auto}
+.tmk{width:15px;height:14px;flex:0 0 auto;color:var(--em);display:block}
+.tmk svg{width:100%;height:100%;display:block}
+
+/* bar chart */
+.bar{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center;margin-bottom:9px}
+.bar .nm{font-size:13px;font-weight:600;text-align:right;line-height:1.2}
+.bar .nm span{display:block;font-weight:400;font-size:11px;color:var(--faint)}
+.bl{position:relative;height:30px}
+.bseg{position:absolute;top:3px;height:11px;border-radius:0 2px 2px 0;transition:width .3s ease}
+.bseg.now{background:var(--em)}
+.bseg.then{top:16px;background:color-mix(in srgb,var(--dn) 55%,transparent)}
+.blab{position:absolute;font-family:var(--fm);font-size:10.5px;font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;transform:translateX(6px)}
+.blab.now{top:1px} .blab.then{top:14px}
+.blab.inside{transform:translateX(calc(-100% - 8px));color:var(--surface)}
+.blab.then.inside{color:var(--ink)}
+@media(max-width:620px){.bar{grid-template-columns:1fr;gap:2px}.bar .nm{text-align:left}}
+
+/* horizon cards */
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:16px}
+.gate{background:var(--surface);border:1px solid var(--rule);box-shadow:var(--shadow);padding:17px 19px;border-top:3px solid var(--dn)}
+.gate.h2{border-top-color:var(--warn)} .gate.h3{border-top-color:var(--em)}
+.gate .hz{font-family:var(--fm);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.gate h5{margin:5px 0 9px;font-size:16.5px;font-weight:600;letter-spacing:-.01em}
+.gate p{margin:0 0 10px;font-size:13.5px;color:var(--ink2)}
+.gate .trig{border-top:1px solid var(--ruleSoft);padding-top:10px;margin-top:2px}
+.gate .trig b{font-family:var(--fm);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;font-weight:500}
+.gate .trig li{font-size:13px;margin-bottom:6px}
+.gate ul{margin:0;padding-left:18px}
+
+/* diagram frames */
+.diag{background:var(--surface);border:1px solid var(--rule);box-shadow:var(--shadow);padding:18px}
+.diag svg{width:100%;height:auto;display:block}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:820px){.dgrid{grid-template-columns:1fr}}
+.dlab{font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.dlab b{color:var(--em)}
+
+footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--rule);font-family:var(--fm);font-size:11px;color:var(--faint);line-height:1.7}
+
+@media print{
+  .nav,.prog,.presets,.toggles,.imgslot{display:none!important}
+  body{background:#fff;font-size:10.5pt}
+  .wrap{max-width:none;padding:0}
+  .part{break-before:page} section{break-inside:auto}
+  .panel,.tw,.diag,.gate,.callout{break-inside:avoid;box-shadow:none}
+  .cover{padding-top:0}
+  .hero{break-inside:avoid;box-shadow:none}
+  img.ph{break-inside:avoid;box-shadow:none}
+  a{color:inherit;text-decoration:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+
+<nav class="nav">
+  <div class="navin">
+    <div class="navbrand">The Cabin <span>Network</span></div>
+    <div class="navlinks" id="navlinks">
+      <a href="#summary">Summary</a>
+      <a href="#p1">I · The bet</a>
+      <a href="#p2">II · Constraints</a>
+      <a href="#p3">III · Architecture</a>
+      <a href="#p4">IV · Product</a>
+      <a href="#p5">V · Long game</a>
+      <a href="#p6">VI · Execution</a>
+      <a href="#p7">VII · Honesty</a>
+    </div>
+  </div>
+</nav>
+<div class="prog" id="prog"></div>
+
+<div class="wrap">
+
+<header class="cover">
+  <div class="hero">
+    <picture>
+      <source media="(max-width:880px)" srcset="img/cover-a380-full.jpg">
+      <img src="img/cover-a380.jpg" alt="An Emirates A380 in cruise above a cloud deck at golden hour">
+    </picture>
+    <div class="scrim"></div>
+    <div class="heroin">
+      <p class="kick"><span>Cabin connectivity strategy</span><span class="s">/</span><span class="d">Recommendations for Emirates</span><span class="s">/</span><span class="d">September 2026</span></p>
+      <h1>The bearer is not the product</h1>
+    </div>
+  </div>
+  <p class="sub">Emirates bought the best satellite bearer in the world. What a passenger actually experiences is decided in four places downstream of it — <b>the capacity of the pipe, the edges of the map, the radio in the cabin, and the policy layer in between</b>. Three of the four are fixed with software and contracts rather than hardware.</p>
+  <p class="byline">
+    <span>Prepared by <a class="lnk" href="https://www.linkedin.com/in/olegfadin" target="_blank" rel="noopener">Aleh Fadzin</a> <span class="aka">(aka Oleg Fadin)</span></span>
+    <span>·</span>
+    <span>For discussion — In-Flight Connectivity, Engineering Projects</span>
+    <span>·</span>
+    <span>Models are interactive: drive them</span>
+  </p>
+</header>
+
+<section id="summary">
+  <div class="sh">
+    <span class="t">Summary</span>
+    <h3>The argument in one page</h3>
+    <p>Six findings, each derived from a model or a primary source in the body of this paper. Every number here can be reproduced from the section it belongs to.</p>
+  </div>
+
+  <dl class="headline" id="sumTiles"></dl>
+
+  <div class="cols" style="margin-top:30px">
+    <div class="body">
+      <p class="lead">The decision to put Starlink on the fleet was correct, and on today's evidence it remains correct. Nothing in this paper argues for unwinding it. What this paper argues is that the bearer was the first decision, not the last one — and that the next four decisions are the ones that determine whether Emirates has the best connectivity product in the sky or merely the best satellite link.</p>
+
+      <h4>What the models show</h4>
+      <p><strong>The pipe fills before the fleet does, and it fails upward first.</strong> There is no congestion problem on Emirates today — roughly 35 aircraft are fitted, and passengers are largely delighted. But modelling every aircraft type and cabin configuration against the terminals fitted to it, an unmitigated busy sector already sits <strong>at the limit on downlink and past it on uplink</strong>. The uplink number is the one that matters and the one nobody publishes. Every headline figure in this industry — Starlink's included — is a downlink figure. <strong>Four software mitigations bring it back inside the envelope</strong>, which is the whole argument of this paper.</p>
+      <p><strong>Demand is not going to stand still.</strong> Two to three years out, 4K streaming, automatic cloud backup of holiday photo and video libraries, and social posting from the seat will push per-passenger demand up substantially. Starlink's answer is the V3 satellite, and its own specification is revealing: downlink improves about tenfold, <strong>uplink about twenty-two fold</strong>. SpaceX is scaling uplink twice as hard as downlink because uplink is the constraint. But V3 says nothing about aviation, and capturing any of it would mean a new terminal and a second fleet-wide retrofit.</p>
+      <p><strong>Nearly half the network is outside the licence.</strong> Starlink publishes the list of territories where it is authorised for in-motion aviation use. Read against Emirates' own route map: <strong>35 of 76 countries, 65 of 143 destinations, and 42% of the network's great-circle distance</strong> lie in airspace that is not on it. Of the land Emirates overflies, roughly two thirds is unauthorised.</p>
+    </div>
+    <div class="body">
+      <h4>What follows from them</h4>
+      <p><strong>A small minority decides everyone's experience.</strong> At a realistic traffic mix, <strong>5% of sessions generate about two thirds of all downlink</strong> — operating-system updates, cloud sync, bulk downloads. A fair-use ceiling on that minority recovers more capacity than any other single intervention, and no other passenger notices.</p>
+      <p><strong>The cabin radio is a generation behind the link.</strong> The access points inside the satellite terminal are Wi-Fi 5. Current-generation cabin access points reach Wi-Fi 6E and Wi-Fi 7, and the 6&nbsp;GHz band is legally available in a large aircraft above 10,000 feet under a specific FCC provision. Below that altitude it is not — which is exactly when most passengers first connect.</p>
+      <p><strong>Nothing is measured, and the contract reflects it.</strong> Starlink markets its top aviation tier as "backed by a Service Level Agreement", but publishes no aviation SLA terms — and its own General Aviation conditions state that those plans are <em>not eligible</em> for the one SLA it does publish. That SLA, in any case, measures whether the terminal can reach a ground point of presence, which says nothing about the cabin. Emirates has no independent telemetry and no way to tell a poor sector from a poor aircraft from a poor beam. Instrumentation is not a reporting nicety; it is the precondition for every commercial conversation that follows.</p>
+
+      <h4>The recommendation</h4>
+      <p>Take control of the layer between the satellite terminal and the passenger. Concretely: an <strong>Emirates-controlled router</strong> behind the terminal's second Ethernet port, a <strong>policy layer</strong> that shapes the greedy few and prioritises by cabin class under congestion, a <strong>modern cabin Wi-Fi estate</strong>, an <strong>instrumentation programme</strong> that makes the contract enforceable, and a <strong>staged option on a second bearer</strong> that costs almost nothing to hold open.</p>
+      <p>The sequencing matters more than the spend. Most of the first year is contract language, specification and measurement — reversible, inexpensive, and a precondition for everything expensive that might follow.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="l">How to read this paper</span>
+    <p>Part II contains three working models rather than illustrations — a fleet capacity model, an authorisation map and a route overlay. <strong>Change the assumptions and the conclusions change with them.</strong> That is deliberate: the aim is not to win an argument with a chart but to hand over a tool that survives disagreement about its inputs.</p>
+    <p>Throughout, verified facts are separated from estimates, and estimates are labelled. Section 20 lists everything this paper asserts that has not been confirmed, because a strategy document that cannot say what it does not know is a sales document.</p>
+  </div>
+</section>
+
+<div class="part" id="p1">
+  <div class="pn">Part I</div>
+  <h2>The bet that was right</h2>
+  <p>A critique that opens with criticism reads as a pitch. One that opens by arguing the incumbent's case at full strength reads as analysis. So: the case for what Emirates has already done, stated as strongly as it deserves.</p>
+</div>
+
+<section id="s1">
+  <div class="sh">
+    <span class="t">01</span>
+    <h3>Where Emirates stands</h3>
+    <p>What has been built, what it cost in organisational effort, and what it looks like from seat 34K.</p>
+  </div>
+
+  <div class="figpair">
+    <figure style="margin:0">
+      <img class="ph" id="img1" src="img/fig1-portal.jpg" alt="A passenger in a first class suite holding a phone showing the Emirates captive Wi-Fi portal: Free and fast Wi-Fi, with fields for email and seat number and a marketing consent tick box">
+      <figcaption><b>Figure 1.</b> The product as the passenger meets it — not a satellite, not a network diagram, but a phone, a hand and a first impression formed in about four seconds. <strong>Read the form, not the headline.</strong> Two fields — an email address and a seat number — and one tick box that couples being over 18 to receiving marketing. Everything this paper argues about identity, cabin awareness and measurement turns on where those two fields go.</figcaption>
+      <p class="figcred">Emirates media material · portal as depicted by Emirates, September 2026</p>
+    </figure>
+    <div>
+      <p class="dt">Detail — the form below the fold</p>
+      <img class="ph" src="img/fig1-form.jpg" alt="Detail of the portal form: an email field, a seat number field, and a single tick box combining age confirmation with marketing consent">
+      <ul class="anno">
+        <li><b>Email</b>A marketing address. Typed, unverified, and not a Skywards identity.</li>
+        <li><b>Seat number</b>The one field the network could use — collected as free text, at the least careful moment, and bound to the consent flow rather than to the session.</li>
+        <li><b>A single tick box</b>Age confirmation and marketing consent in one control, so the two can never afterwards be separated.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cols" style="margin-top:34px">
+    <div class="body">
+      <h4>The programme</h4>
+      <p>Emirates committed to fitting Starlink across the widebody fleet and made it <strong>free to every passenger in every cabin</strong>, with no tiering, no paywall and no loyalty gate. That last decision is easy to underrate. Most carriers that moved to LEO kept a paid tier for at least a year; Emirates removed the transaction entirely, which converts connectivity from an ancillary line into a brand attribute.</p>
+      <p>The fleet being fitted is not a small one. On the current orderbook the connected widebody fleet moves from roughly <strong>264 aircraft today toward 623</strong> — 116 A380s, 119 777-300ERs, 10 777-200LRs and a growing A350 fleet now, with 235 777-9s, 35 777-8s, 20 787-8s and 15 787-10s to come. Every decision taken about the cabin network today is being taken for a fleet roughly twice the size of the one it is being tested on.</p>
+      <p>The retrofit itself is a substantial engineering achievement: a supplemental type certificate per airframe type, a radome and terminal on the crown, power and cooling provisioning, cabin access points, and an aircraft out of service for each installation. Doing that at fleet scale, in parallel with a cabin refurbishment programme, is not a procurement exercise. It is an industrial one.</p>
+    </div>
+    <div class="body">
+      <h4>What the passenger meets</h4>
+      <p>The experience is close to frictionless, and deliberately so. Join the network, the portal appears — Emirates on one side, Starlink on the other, <em>free and fast Wi-Fi</em> across the middle — and the passenger is asked for three things: an <strong>email address</strong>, a <strong>seat number</strong>, and a tick in a single box that combines being over 18 with consenting to marketing email. Then the session opens. For a service given away at no charge that is a light ask, and it should stay light.</p>
+      <p>But it is worth reading that form as an engineer rather than as a marketer, because <strong>what it collects and what the network needs are two different things.</strong> Both fields are typed by the passenger and verified by nothing. The email is a marketing capture. The seat number — the single field that could tell the network which cabin a device is sitting in — is gathered as free text, at the one moment the passenger is least inclined to be careful, and is attached to a consent flow rather than to the session. And the tick box binds age confirmation to marketing consent in one control, so the two can never afterwards be separated; whether that survives GDPR-style unbundling requirements is a question for counsel, not for this paper.</p>
+      <p>So the position is not that Emirates learns nothing about its passengers. It is narrower, and for an engineering audience more useful: <strong>the front door collects an identity for the marketing database and nothing at all for the network.</strong> Nothing visible from outside suggests that what is typed into this form ever reaches the people who would have to explain a bad sector — there is no evident path from this form to a cabin, an access point, a device class or an outcome. Connectivity is still delivered blind. Section 9 shows how the cabin can be known without asking anyone, and section 13 what these two fields would be worth if they were simply joined to the data Emirates already holds.</p>
+
+      <h4>Where the competition is</h4>
+      <p>The LEO transition is now industry-wide rather than a differentiator in itself. United, Qatar Airways, Air France, WestJet, airBaltic, Alaska, Hawaiian, ZIPAIR, British Airways, Air New Zealand and others are flying it; American has announced 500-plus aircraft and Lufthansa Group some 850 across eight carriers through 2029. JetBlue and Delta have committed to a different constellation entirely.</p>
+      <p><strong>Within about three years, free fast Wi-Fi will be table stakes on every premium long-haul carrier.</strong> The differentiator will not be having it. It will be what the airline does with the layer above it — which is the subject of this paper.</p>
+    </div>
+  </div>
+</section>
+
+<section id="s2">
+  <div class="sh">
+    <span class="t">02</span>
+    <h3>Why Starlink was the correct call</h3>
+    <p>Stated at full strength, because the rest of this paper depends on the reader accepting that the incumbent is genuinely excellent.</p>
+  </div>
+
+  <div class="cols">
+    <div class="body">
+      <h4>There was no second choice, and there is barely one now</h4>
+      <p>Starlink has roughly <strong>9,713 working satellites of 11,133 in orbit</strong>. Every other broadband constellation in the sky — OneWeb, Amazon Leo, the two Chinese constellations, O3b mPOWER, the rest — adds up to about <strong>1,520</strong>. That is a ratio near <strong>six to one against the entire rest of the world combined</strong>, and it was earned with a launch cadence no one else has come close to matching.</p>
+      <p>Scale alone would not settle it. Three properties do:</p>
+      <ul>
+        <li><strong>The laser mesh.</strong> More than 13,000 optical inter-satellite links mean traffic can reach a ground gateway without one being in view of the aircraft. For a carrier whose network is built on ultra-long-haul sectors across empty ocean, this is not a feature — it is the entire product.</li>
+        <li><strong>Latency.</strong> Sub-50&nbsp;ms round trips make interactive applications behave as they do on the ground. A GEO link at 600&nbsp;ms does not, however much bandwidth it carries. This is the difference between a passenger who works and a passenger who gives up.</li>
+        <li><strong>Pace.</strong> Capacity is added continuously rather than in eight-year satellite replacement cycles. An airline signing a satellite contract normally inherits a fixed ceiling for a decade. Here the ceiling moves.</li>
+      </ul>
+    </div>
+    <div class="body">
+      <h4>The commercial logic held too</h4>
+      <p>Free, fast, gate-to-gate connectivity is a brand asset that can be advertised, and the retrofit programme is visible proof that the airline moved before its peers rather than after them. In a market where the product is otherwise converging — flat beds, similar seats, similar catering — a visible technology lead has disproportionate value.</p>
+
+      <h4>What this paper does and does not say</h4>
+      <p><strong>It does not recommend replacing Starlink.</strong> There is no candidate that could carry this fleet today, and on published schedules there will not be a fully equivalent one before the end of the decade.</p>
+      <p>What it says is narrower and, I think, more useful: the bearer decision has been made well, and the four decisions that follow it have not yet been made at all. Those four decide whether the investment already committed produces a genuinely differentiated product or an expensive parity one.</p>
+      <p>The rest of this paper is about those four.</p>
+    </div>
+  </div>
+
+  <div class="callout ok">
+    <span class="l">The one-line version</span>
+    <p>Emirates bought the best bearer available, on the best commercial terms available at the time, and deployed it faster than most of its peers. <strong>The question this paper asks is not whether that was right. It is what has to be true in 2030 for it to still look right.</strong></p>
+  </div>
+
+  <div class="vend" id="vend1">
+    <div class="vt">Referenced in this part</div>
+    <div class="vrow" data-vendors="SpaceX / Starlink|bearer;Panasonic Avionics|IFE platform;Thales|IFE platform;Airbus|airframe;Boeing|airframe"></div>
+  </div>
+</section>
+
+<div class="part" id="p2">
+  <div class="pn">Part II</div>
+  <h2>Where the product is actually decided</h2>
+  <p>Four constraints, each evidenced rather than asserted. Three of them are measurable today and are not being measured. The models in this part are live — change the assumptions and the conclusions move with them.</p>
+</div>
+
+<section id="s3">
+  <div class="sh">
+    <span class="t">03 · Constraint one</span>
+    <h3>Capacity — the ceiling the fleet is growing into</h3>
+    <p>Every aircraft type and cabin configuration in the fleet, the terminals fitted to each, the devices and crew aboard, and the traffic they offer — against what the link can carry.</p>
+  </div>
+
+  <div class="callout dn">
+    <span class="l">Read this first — what this section claims, and what it does not</span>
+    <p><strong>Emirates does not have a congestion problem today, and this section does not say it does.</strong> There are no credible reports of the cabin network failing under load on an Emirates aircraft, and the passenger commentary that exists is, on the whole, delighted. That is the honest starting position.</p>
+    <p>It is also a position built on a small sample. On my own reading of the programme, roughly <strong>35 aircraft of a fleet heading toward 623</strong> are flying with Starlink at the time of writing — Emirates does not publish a running fitment count, so treat that as an industry estimate rather than a disclosed figure. Take-up rises as the fitment spreads and as passengers learn to expect it; the traffic each connected passenger offers rises independently of that, for the reasons set out later in this section. <strong>Those two curves multiply.</strong></p>
+    <p>So this model is a <strong>forecast, not a diagnosis</strong>. It exists to answer one question — <em>at what point does this become a problem, and which direction does it break first?</em> — early enough that the answer is still cheap to act on. The finding is that the binding constraint, when it arrives, is <strong>uplink</strong>, and that it arrives well before downlink runs out. Everything downstream of this section follows from that.</p>
+  </div>
+
+  <h4 style="margin-top:34px;font-size:18px;font-weight:600">It is already visible on other carriers</h4>
+  <p class="lead" style="margin:6px 0 16px">The same bearer, on aircraft that have been flying it longer or carrying it on denser sectors. These are passenger accounts, not measurements — but they are the only public evidence there is of what a Starlink cabin looks like when it is not going well.</p>
+
+  <figure style="margin-top:6px">
+    <div class="qgrid">
+      <div class="qc">
+        <div class="qh"><img src="logos/hawaiian.svg" alt="" onerror="this.remove()"><span class="al">Hawaiian Airlines</span><span class="mt">15 Jan 2026 · A330-200</span></div>
+        <blockquote>A passenger described the service as <em>"maddening"</em>, saying it kept disconnecting and timing out for the whole of the previous day's flight.</blockquote>
+        <div class="src">FlyerTalk — "Starlink on A332"</div>
+      </div>
+      <div class="qc">
+        <div class="qh"><img src="logos/hawaiian.svg" alt="" onerror="this.remove()"><span class="al">Hawaiian Airlines</span><span class="mt">30 Apr 2024 · A321neo · ex-SFO</span></div>
+        <blockquote>Wi-Fi was fast, but <em>micro-stuttering every few minutes</em> made it impossible to stream for more than a minute or two. Browsing and social media were fine. A second passenger on the same flight reported <em>roughly ten-second interruptions every 10–15 minutes</em>.</blockquote>
+        <div class="src">Reddit — passenger thread on Hawaiian Starlink</div>
+      </div>
+      <div class="qc">
+        <div class="qh"><img src="logos/united.svg" alt="" onerror="this.remove()"><span class="al">United Express</span><span class="mt">26 May 2026 · E175 · UA3583</span></div>
+        <blockquote>Starlink was advertised on the aircraft, but passengers were told on board that <em>it was not working</em>. The same traveller recorded 184 Mbps down on the return sector — so this is an availability complaint, not a capacity one.</blockquote>
+        <div class="src">Reddit — "Starlink experience / IND-IAD &amp; back"</div>
+      </div>
+      <div class="qc">
+        <div class="qh"><img src="logos/united.svg" alt="" onerror="this.remove()"><span class="al">United Airlines</span><span class="mt">1 Jul 2026 · two consecutive sectors</span></div>
+        <blockquote>A passenger could not reach the internet at all on <em>both</em> equipped flights. Later replies in the thread suggest disabling a VPN resolved similar cases — an access-path problem rather than a satellite-link failure.</blockquote>
+        <div class="src">Reddit — "Trouble accessing starlink internet?"</div>
+      </div>
+    </div>
+    <figcaption><b>What passengers say when it goes wrong.</b> Read these carefully, because they are easy to over-claim. <strong>They do not establish how often problems occur, and they do not identify which part of the system caused them</strong> — several of the same threads also contain strongly positive accounts, and at least two of these are access or client-side faults rather than bandwidth. What they do establish is narrower and sufficient: <strong>a Starlink-equipped aircraft can still deliver a poor cabin, and the failure modes are the unglamorous ones</strong> — dropouts, stalls, and the service simply not being there. None of them would be diagnosable from the airline's side today, because nothing is instrumented. That is section 11's argument, arriving early.</figcaption>
+  </figure>
+
+  <dl class="headline" id="capTiles" style="margin-top:34px"></dl>
+
+  <figure>
+    <div class="panel" style="margin-top:22px">
+      <div class="presets" id="presets">
+        <button data-p="base" class="b on">Busy sector</button>
+        <button data-p="avg" class="b">Network-average sector</button>
+        <button data-p="stress" class="b">Stress case</button>
+        <button data-p="mitig" class="b">Busy + all mitigations</button>
+      </div>
+
+      <div class="sub2" style="margin-top:0;padding-top:0;border-top:0">Occupancy and devices</div>
+      <div class="grid" id="g1"></div>
+
+      <div class="sub2">Traffic mix — share of active sessions</div>
+      <div class="grid" id="g2"></div>
+
+      <div class="sub2">Link capacity</div>
+      <div class="grid" id="g3"></div>
+
+      <div class="sub2">Mitigations</div>
+      <div class="toggles">
+        <label class="tg"><input type="checkbox" id="mHeavy"> Shape heavy users (fair-use ceiling)</label>
+        <label class="tg"><input type="checkbox" id="mBg"> Suppress background sync</label>
+        <label class="tg"><input type="checkbox" id="mCache"> Onboard cache, 60% video hit rate</label>
+        <label class="tg"><input type="checkbox" id="mRes"> Streaming resolution ceiling (720p)</label>
+      </div>
+    </div>
+    <figcaption><b>Figure 2 — assumptions.</b> Defaults describe a busy long-haul sector, not an average one. Networks are sized for the busy day; the "network-average sector" preset drops every input to Emirates' published system figures so the two cases can be compared directly.</figcaption>
+  </figure>
+
+  <h4 style="margin-top:38px;font-size:18px;font-weight:600">What one active device is assumed to consume</h4>
+  <p class="lead" style="margin:6px 0 16px">The mean bitrate per active session is the most contestable number in any capacity model, so it is built up class by class rather than asserted. Rates are sustained means over a session, not peak burst rates.</p>
+
+  <figure style="margin-top:6px">
+    <div class="tw">
+      <table id="mixt">
+        <thead>
+          <tr>
+            <th>Traffic class</th>
+            <th class="n">Share of<br>sessions</th>
+            <th class="n">Mbps down<br>per session</th>
+            <th class="n">Mbps up<br>per session</th>
+            <th class="n">Share of total<br>downlink</th>
+            <th class="n">Share of total<br>uplink</th>
+            <th>What it is</th>
+          </tr>
+        </thead>
+        <tbody id="mixrows"></tbody>
+        <tfoot id="mixfoot"></tfoot>
+      </table>
+    </div>
+    <figcaption id="crewnote"></figcaption>
+  </figure>
+
+  <h4 style="margin-top:38px;font-size:18px;font-weight:600">Offered load against available capacity</h4>
+  <p class="lead" style="margin:6px 0 16px">Devices aboard, active sessions and offered load are computed per cabin configuration. Capacity is terminals × per-terminal rate × beam availability. Crew are counted separately and added.</p>
+  <p class="cap2" style="margin:0 0 16px;max-width:88ch">These are <strong>unmitigated</strong> figures: the model with every control switched off, which is the network as it stands today. They are deliberately not the end state. <strong>Four software mitigations, all available above, bring the same aircraft back inside its envelope in both directions</strong> — which is the actual argument of this paper and the reason the table is presented before the remedies rather than after them.</p>
+
+  <figure style="margin-top:6px">
+    <div class="tw">
+      <table class="w2">
+        <thead>
+          <tr>
+            <th>Aircraft / configuration</th>
+            <th class="n">Seats</th>
+            <th class="n">Units in service<br>now → with orders</th>
+            <th class="n">Term-<br>inals</th>
+            <th class="n">Devices<br>aboard</th>
+            <th class="n">Active<br>sessions</th>
+            <th>Downlink</th>
+            <th>Uplink</th>
+            <th>Binding constraint</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span class="lg"><span class="tmk"></span> Starlink terminal</span>
+      <span class="lg"><span class="sw" style="background:var(--dn)"></span> Downlink</span>
+      <span class="lg"><span class="sw" style="background:var(--up)"></span> Uplink</span>
+      <span class="lg"><span class="pill p-ok">Headroom</span> &lt;60%</span>
+      <span class="lg"><span class="pill p-warn">Tight</span> 60–85%</span>
+      <span class="lg"><span class="pill p-ser">At limit</span> 85–100%</span>
+      <span class="lg"><span class="pill p-crit">Oversubscribed</span> &gt;100%</span>
+    </div>
+    <figcaption><b>Figure 3 — the fleet against its link.</b> Aircraft are reproduced at true relative length; markers on the crown show terminal count and approximate position — three on the A380, two on every other type. Unit counts are per type; the split between cabin configurations within a type is not published, so repeated rows are dimmed. Meters clip at 100%; the figure beside each is the true utilisation. Above 100% the link does not fail — it degrades: queues build, latency climbs, sessions stall, and the experience collapses well before the arithmetic does.</figcaption>
+  </figure>
+
+  <div class="cols" style="margin-top:36px">
+    <div class="body">
+      <h4>Two ratios that do not match</h4>
+      <p>The Starlink Performance Kit is quoted at 1&nbsp;Gbps down against 100&nbsp;Mbps up. Emirates' own figure of more than 2&nbsp;Gbps across three A380 terminals implies a working downlink nearer <strong>667&nbsp;Mbps per terminal</strong>, which is the default used here. Either way the link is asymmetric by <strong>seven to one or more</strong>.</p>
+      <p>A cabin full of people is not. Messaging is close to symmetric. Video calls are symmetric by definition. Photo and cloud backup is almost pure uplink. The offered traffic ratio lands near <strong>three to one</strong>.</p>
+      <p><strong>Offered traffic is far less asymmetric than the link carrying it.</strong> Uplink utilisation therefore climbs about twice as fast as downlink and goes past capacity while downlink is still merely at its limit. Every performance figure published by anyone in this market is a downlink figure. The constraint nobody quotes is the one that binds.</p>
+    </div>
+    <div class="body">
+      <h4>Five per cent of sessions, two thirds of the traffic</h4>
+      <p>A small minority running sustained greedy transfers — operating-system updates, torrents, bulk downloads, unattended cloud sync — generate a wildly disproportionate share of load. At the defaults, <strong>5% of sessions produce around two thirds of all downlink</strong> and roughly half the uplink.</p>
+      <p><strong>This is not an aviation finding, and it is not modelled optimism.</strong> The same shape turns up in every shared access network I have worked on or seen measured: fixed broadband, mobile data, hotel and airport Wi-Fi, campus networks, municipal hotspots. The exact numbers move — a few per cent of subscribers carrying somewhere between half and three quarters of the bytes — but the shape does not. It is one of the most stable empirical regularities in telecommunications, and any operator's traffic team will recognise it on sight. <strong>An aircraft is simply the smallest and most contended access network any of us will ever use</strong>, which makes the effect sharper, not different.</p>
+      <p>And the model <em>understates</em> them. Greedy flows have no natural rate: they expand to fill whatever is available, which is exactly why they are so destructive on a shared link. Modelling them at a fixed bitrate is a convenience. <strong>In an unmanaged network they take everything that is not actively defended.</strong></p>
+      <p>Which is why the single most valuable control is not more bandwidth. It is a fair-use ceiling that bounds the top few per cent — invisible to everyone else, and recovering more capacity than any other intervention available. Turn on "shape heavy users" above and watch both meters move.</p>
+    </div>
+  </div>
+
+  <div class="callout cr">
+    <span class="l">The largest unknown — beam availability</span>
+    <p>The per-terminal figures are ceilings under favourable conditions, not floors. Starlink's own terms state quoted speeds are maxima, are not guaranteed, and slow under congestion — and the beam is shared with ground users and other aircraft in the same cell.</p>
+    <p>Neither published in-flight measurement study reports aircraft-aggregate throughput; both measured single devices on lightly-loaded aircraft. <strong>The fraction of nominal capacity actually delivered to an Emirates aircraft over the Gulf at 20:00 local is unknown, unmeasured, and the largest single uncertainty in this model.</strong> Leave the slider at 100% and downlink sits on the line. Set it to half — entirely plausible over a busy region — and every widebody in the fleet is oversubscribed in both directions at once.</p>
+  </div>
+
+  <div class="callout wn">
+    <span class="l">And demand is about to grow, not plateau</span>
+    <p>Every number above describes today's traffic mix. It will not hold. Three things are arriving at once over the next two to three years: <strong>4K streaming becoming the default</strong> rather than the exception on phones and tablets; <strong>automatic cloud backup of photo and video libraries</strong>, which is pure uplink and which passengers do not know is running; and <strong>social posting from the seat</strong>, increasingly video. None of these are speculative. All three are already normal behaviour on the ground and are suppressed in the air only by the network being too poor to attempt them. <strong>Make the network good and the demand appears.</strong></p>
+    <p>Starlink's answer is the <strong>V3 satellite</strong>, and its published specification makes the point of this section for us. Per satellite, V3 supports <strong>1&nbsp;Tbps of downlink — about ten times V2 — and 160&nbsp;Gbps of uplink, about twenty-two times V2</strong>, with 2,048 beams each way against 192 down and 144 up, six 400&nbsp;Gbps optical links, and roughly twenty times the capacity per launch. <strong>SpaceX is scaling uplink more than twice as hard as downlink.</strong> The constraint identified here from inside the cabin is the same one they are solving in orbit.</p>
+    <p>Three caveats belong on that, and they are load-bearing. <strong>Constellation capacity is not per-aircraft capacity</strong> — an aircraft is limited by its terminal and its beam allocation, not by the total in orbit. <strong>SpaceX has not announced aviation support for V3</strong>; the published material describes satellites, not terminals or service plans. And <strong>capturing any of it would require a new aviation terminal and a second fleet-wide retrofit</strong> — on 264 aircraft today, and on a fleet heading toward 623. That is a programme, not an upgrade, and it should be planned for now rather than discovered later.</p>
+  </div>
+
+  <div class="callout ok">
+    <span class="l">What the mitigation toggles recover</span>
+    <p>Enable them one at a time. <strong>Shaping heavy users</strong> produces the largest single recovery in both directions and affects a tiny minority of passengers. <strong>Background suppression</strong> is the biggest uplink-specific win, and it removes traffic no passenger asked for and none will notice losing — a photo library that syncs on the airbridge instead of at 38,000 feet costs its owner nothing. <strong>Caching</strong> moves downlink substantially and uplink not at all — enormously valuable for cost and latency, but it does not touch the binding constraint.</p>
+    <p><strong>Cache solves downlink, policy solves uplink, and neither substitutes for the other.</strong> Switch all four on and the busy-sector case lands comfortably inside the envelope in both directions — which is the point worth taking from this section. The constraint is real and it is approaching, but <strong>it is a software problem before it is a hardware one</strong>, and the tools that solve it are neither exotic nor expensive.</p>
+  </div>
+
+  <div class="callout">
+    <span class="l">What this model is not</span>
+    <p><strong>Not a measurement.</strong> Every input is an assumption; it is a framework for reasoning and testing sensitivity, not evidence about any aircraft flying today. <strong>Not a queueing model</strong> — it compares mean offered load to mean capacity, and real networks fail on bursts and tail latency well before mean utilisation reaches 100%, so the true onset of poor experience is <em>earlier</em> than shown, not later. <strong>Not phase-aware</strong> — climb, descent and taxi are worse than any figure here. And <strong>silent on the Wi-Fi hop</strong>, which section 5 addresses and which may be the real constraint.</p>
+  </div>
+</section>
+
+<section id="s4">
+  <div class="sh">
+    <span class="t">04 · Constraint two</span>
+    <h3>Starlink coverage — where the authorisation ends</h3>
+    <p>Starlink publishes the list of territories where it holds regulatory approval for in-motion aviation service. Read against Emirates' own route network, it is the most consequential single fact in this paper.</p>
+  </div>
+
+  <dl class="headline" id="covTiles"></dl>
+
+  <figure>
+    <div class="panel" style="margin-top:22px">
+      <div class="globes">
+        <div class="gwrap">
+          <canvas id="gA" width="840" height="840" aria-label="Eastern hemisphere showing Starlink aviation authorisation"></canvas>
+          <div class="gcap">Eastern hemisphere · centred on Dubai</div>
+        </div>
+        <div class="gwrap">
+          <canvas id="gB" width="840" height="840" aria-label="Western hemisphere showing Starlink aviation authorisation"></canvas>
+          <div class="gcap">Western hemisphere · centred on the Americas</div>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="lg"><span class="sw" style="background:var(--ok)"></span> Authorised for in-motion aviation use</span>
+        <span class="lg"><span class="sw" style="background:var(--em)"></span> Not authorised — <b>and Emirates serves it</b></span>
+        <span class="lg"><span class="sw" style="background:var(--land)"></span> Not authorised, not in the network</span>
+        <span class="lg"><span class="sw" style="background:var(--sea);border-color:var(--rule)"></span> International waters — authorised globally</span>
+      </div>
+    </div>
+    <figcaption><b>Figure 4 — the authorisation map.</b> Drag either globe to rotate it. Country fills are from Starlink's published list of territories authorised for in-motion aviation use, read 15 September 2026; every territory absent from that list is shown as not authorised, which is what absence from it means. Seven served markets too small to render at this scale — Bahrain, Hong Kong, Malta, Maldives, Mauritius, Seychelles and Singapore — are drawn as points.</figcaption>
+  </figure>
+
+  <figure style="margin-top:32px">
+    <div class="panel">
+      <div class="presets" id="rpresets">
+        <span style="font-family:var(--fm);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);align-self:center;margin-right:4px">Routes</span>
+        <button class="b on" data-set="all">All 142</button>
+        <button class="b" data-set="worst">Worst 20</button>
+        <button class="b" data-set="off">Map only</button>
+        <span style="font-family:var(--fm);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);align-self:center;margin:0 4px 0 16px">View</span>
+        <button class="b on" data-view="22,28">Default</button>
+        <button class="b" data-view="58,20">Hub centred</button>
+        <button class="b" data-view="100,25">Asia</button>
+        <button class="b" data-view="-90,25">Americas</button>
+      </div>
+      <canvas id="gMain" width="1280" height="1280" aria-label="Rotatable globe showing Emirates routes over the Starlink authorisation map"></canvas>
+      <p style="text-align:center;font-size:12.5px;color:var(--faint);margin-top:10px">Drag the globe to rotate it</p>
+      <div class="legend">
+        <span class="lg"><span class="ln" style="background:var(--em)"></span> Arc over airspace <b>without</b> in-motion authorisation</span>
+        <span class="lg"><span class="ln" style="background:var(--route);opacity:.5"></span> Arc over authorised territory or international waters</span>
+        <span class="lg"><span class="ln" style="background:var(--route);opacity:.18"></span> Ground track beneath the arc</span>
+      </div>
+    </div>
+    <figcaption><b>Figure 5 — 142 routes over the authorisation map.</b> Every scheduled passenger route drawn as a raised great-circle arc from Dubai, classified point by point against the territory beneath it. Great circles, not filed tracks: real routings follow airways and avoid closed airspace, so an actual flight may cross more or fewer unauthorised regions than the arc suggests.</figcaption>
+  </figure>
+
+  <div class="cols" style="margin-top:36px">
+    <div class="body">
+      <h4>What the map says about this network specifically</h4>
+      <p>Emirates flies to roughly <strong>143 destinations in 76 countries</strong>. <strong>35 countries — 65 destinations — are not on the authorisation list.</strong> That is <strong>45% of the network</strong>, and it is not a tail of minor stations:</p>
+      <ul>
+        <li><strong>India — nine destinations</strong>, the second-largest country in the network, where the licence has been granted but the final security clearance has been frozen since June 2026.</li>
+        <li><strong>China — five, plus Hong Kong and Taiwan.</strong> Chinese rules require domestic satellite capacity over Chinese airspace, so this is structural rather than procedural. No amount of licensing effort by a US operator resolves it.</li>
+        <li><strong>Pakistan five, Saudi Arabia four, Japan three, South Africa three, Vietnam three</strong>, then Thailand, Indonesia, Cambodia, Iraq and Russia at two each.</li>
+        <li><strong>Singapore, Bahrain, Kuwait, Lebanon, Egypt, Türkiye, Morocco, Nigeria, Ethiopia</strong> and most of the East and West African network at one each.</li>
+      </ul>
+      <p>The Gulf itself is split down the middle: the UAE, Oman and Jordan are authorised; <strong>Saudi Arabia, Bahrain, Kuwait, Iraq and Lebanon are not.</strong></p>
+    </div>
+    <div class="body">
+      <h4>By distance flown it is worse</h4>
+      <p>Counting destinations understates it, because a destination is a point and a flight is a line. Measured across all 142 routes:</p>
+      <ul>
+        <li><strong>42% of total great-circle route distance</strong> crosses airspace without in-motion authorisation.</li>
+        <li><strong>68% of the land overflown</strong> is unauthorised. Only about a fifth of total distance is over approved territory; the rest is international waters, where no licence is needed.</li>
+      </ul>
+      <p>And it inverts the usual intuition about which flights are exposed. The China group runs <strong>96–98% of route distance</strong> unserved end to end. Dubai–London is <strong>46%</strong> and Dubai–Paris <strong>51%</strong> — not because Europe is unauthorised but because the first half of the sector crosses Iran, Iraq, Türkiye and the Gulf states before reaching approved airspace. Meanwhile <strong>Dubai–Sydney is 4%</strong> and New York 20%, because most of those sectors are over open ocean.</p>
+      <p><strong>The ultra-long-haul flights, where connectivity matters most to the passenger, are the best served. The exposure is concentrated in the four-to-seven-hour Asian sectors</strong> — which are also the fullest aircraft in the fleet.</p>
+    </div>
+  </div>
+
+  <figure style="margin-top:30px">
+    <div class="tw">
+      <table>
+        <thead><tr><th>Route</th><th class="n">IATA</th><th class="n">Distance</th><th>Share of route distance over unauthorised airspace</th><th class="n" style="text-align:right">&nbsp;</th></tr></thead>
+        <tbody id="worst"></tbody>
+      </table>
+    </div>
+    <figcaption><b>Figure 6.</b> The sixteen routes spending the greatest share of their distance outside the authorisation envelope. Unweighted by frequency — weighting by departures would probably push these figures up, since the dense Asian short-haul network is flown far more often than the ultra-long-haul.</figcaption>
+  </figure>
+
+  <div class="callout">
+    <span class="l">Why it bites harder than the percentage suggests</span>
+    <p>Unauthorised airspace is not distributed evenly across a flight. It is concentrated at the ends — over the destination during descent and approach, over the origin during climb. That is precisely the window in which most passengers first open the portal, and precisely the window section 5 identifies as already degraded: below 17,000 feet the uplink is measurably worse, and below 10,000 feet the 6&nbsp;GHz band is not legally available in the cabin.</p>
+    <p><strong>On 65 of 143 destinations, the passenger's first and last impression of the product is formed in the one phase where three constraints stack at once.</strong></p>
+  </div>
+
+</section>
+
+<section id="s5">
+  <div class="sh">
+    <span class="t">05 · Constraint three</span>
+    <h3>The cabin — the last ten metres</h3>
+    <p>The satellite link is the part everyone measures. The Wi-Fi hop between the access point and the passenger's phone is the part nobody measures, and it is a generation behind.</p>
+  </div>
+
+  <div class="cols">
+    <div class="body">
+      <h4>What is actually serving the cabin</h4>
+      <p>The Starlink aviation installation includes its own wireless access points. They are <strong>Wi-Fi 5 class</strong> — 802.11ac, 2.4 and 5&nbsp;GHz only. That was a reasonable choice when the kit was designed and it is no longer the state of the art.</p>
+      <p>Purpose-built cabin wireless access points now reach <strong>Wi-Fi 6E with tri-radio designs supporting 2.4, 5 and 6&nbsp;GHz</strong>, several hundred clients per radio, and integrated Bluetooth Low Energy and Zigbee radios. At least one is a <strong>Wi-Fi 7</strong> design offering multi-gigabit throughput in the 6&nbsp;GHz band, qualified to DO-160G with an integrated layer 2–7 firewall.</p>
+      <p>This matters more on a full A380 than anywhere on the ground. <strong>Between 660 and 850 devices</strong> associate to the cabin network on a busy sector by the model in section 3. That is a density no home or office deployment ever sees, inside an aluminium tube that reflects everything, with metallised windows, seat-back screens, galley equipment and several hundred human bodies absorbing 2.4 and 5&nbsp;GHz energy.</p>
+
+      <h4>Why the spectrum question decides it</h4>
+      <p>Capacity in a dense wireless environment comes from <strong>clean channels</strong>, not from raw radio speed. The 2.4&nbsp;GHz band offers three non-overlapping 20&nbsp;MHz channels and is saturated by every Bluetooth device in the cabin. The 5&nbsp;GHz band is better, but usable spectrum there is narrower in an aircraft than it looks — see the DFS problem opposite. The <strong>6&nbsp;GHz band is the only place where wide, clean, uncontended channels exist</strong>, and it is the reason a modern cabin AP outperforms a Wi-Fi 5 one by far more than the specification sheets suggest.</p>
+
+      <h4>Emirates is about to fill 2.4 GHz with its own hardware</h4>
+      <p>This is not a static picture, and the change is being driven by Emirates' own cabin programme rather than by passengers. The retrofit fleet and the new deliveries are being fitted with seatback systems that <strong>pair the passenger's own Bluetooth headphones directly to the screen</strong> — Panasonic's platform on the retrofitted A380s and 777s, Thales AVANT Up on the A350, with the next-generation 4K units following from late 2026. The retrofit programme alone covers <strong>219 aircraft</strong>, around a hundred of them already redelivered.</p>
+      <p>Consider what that does to the 2.4&nbsp;GHz noise floor. Today a minority of passengers run a Bluetooth link between their own phone and their own earbuds. Tomorrow <strong>every seat is a Bluetooth transmitter by design</strong>, and the airline is actively encouraging passengers to use it, because it removes a wired headset from the service flow. On a three-class A380 that is a potential <strong>500-plus simultaneous Bluetooth links in a tube seventy metres long</strong>, each hopping across the same 79 channels that the Wi-Fi is trying to use, each within a metre or two of the device it is interfering with.</p>
+      <p>The usual reassurance at this point is <em>adaptive frequency hopping</em> — Bluetooth senses which channels Wi-Fi is using and hops around them. <strong>Figure 7 shows why that reassurance fails in a cabin.</strong> Bluetooth has 79 channels of one megahertz; three non-overlapping Wi-Fi channels cover 68 of them, leaving eleven clear. And the Bluetooth specification does not permit a hop set below <strong>twenty</strong> channels. Eleven is less than twenty, so <strong>AFH is not merely reluctant to avoid Wi-Fi — it is forbidden from doing so.</strong> At least nine of its hop channels must sit inside a Wi-Fi carrier, by rule, every second of the flight.</p><p>The second panel is the part that has no mitigation at all. AFH coordinates Bluetooth against <em>Wi-Fi</em>. Nothing coordinates Bluetooth against <em>other Bluetooth</em>: every pairing hops on its own pseudo-random sequence, blind to the other five hundred. The collision curve is simple birthday arithmetic and it saturates long before the cabin is full.</p><p>Bluetooth and Wi-Fi coexist adequately when Bluetooth is sparse. At seat-density they do not. <strong>The practical consequence is that 2.4&nbsp;GHz should be written off as a passenger data band</strong> — kept for legacy devices that have nothing else, and otherwise conceded. Which leaves exactly two bands to carry the cabin:</p>
+      <ul>
+        <li><strong>5&nbsp;GHz</strong>, where more than half the nominal spectrum sits behind DFS and is commonly disabled outright in flight — the subject of the panel opposite.</li>
+        <li><strong>6&nbsp;GHz</strong>, where only the lower portion of the band is available to aircraft at all, and only above 10,000 feet.</li>
+      </ul>
+      <p><strong>Both of the remaining bands are half-available, and the airline is in the process of removing the third one itself.</strong> That is the case for treating the cabin radio estate as a designed system rather than a shopping list — and for doing the RF survey before the next tranche of aircraft is specified, not after.</p>
+    </div>
+    <div class="body">
+      <h4>The 6 GHz rule, precisely</h4>
+      <p>US rules on unlicensed 6&nbsp;GHz operation aboard aircraft are set by <strong>47 CFR §15.407(d)(1)(iv)</strong>. The operative text:</p>
+      <blockquote style="margin:0 0 15px;padding:12px 16px;border-left:3px solid var(--rule);background:var(--surface);font-size:14px;color:var(--ink2)">
+        "Standard power access points, fixed client devices, geofenced variable power access points, very low power devices, and low-power indoor access points in the 5.925–7.125 GHz band are prohibited from operating on aircraft, except that <b>very low power devices and low-power indoor access points are permitted to operate in the 5.925–6.425 GHz bands in large aircraft while flying above 10,000 feet.</b>"
+      </blockquote>
+      <p>Three consequences follow, and all three are design constraints rather than footnotes:</p>
+      <ul>
+        <li><strong>Only the lower half of the band is available.</strong> 5.925–6.425&nbsp;GHz — U-NII-5 — not the full 5.925–7.125&nbsp;GHz. That is roughly 500&nbsp;MHz, still transformative next to 5&nbsp;GHz, but it halves the channel plan.</li>
+        <li><strong>Only two device classes qualify</strong> — very low power and low-power indoor. Standard-power and geofenced variable-power access points remain prohibited outright. Cabin equipment must be certified into one of the two permitted classes.</li>
+        <li><strong>Only above 10,000 feet.</strong> The access point must disable its 6&nbsp;GHz radios below that altitude, which means the band is unavailable during boarding, taxi, climb and the whole of descent and approach.</li>
+      </ul>
+      <p class="cap2" style="margin-top:0">The regulation does not define "large aircraft" in this section — a point worth confirming with counsel before it is relied upon in a certification submission. The rule cited is the FCC's; EASA and the UAE's TDRA positions should be confirmed separately and are not assumed here.</p>
+    </div>
+  </div>
+
+  <figure style="margin-top:34px">
+    <div class="dgrid">
+      <div class="diag" id="diagBtBand"></div>
+      <div class="diag" id="diagBtColl"></div>
+    </div>
+    <figcaption><b>Figure 7 — the 2.4 GHz squeeze.</b> Two facts, both from the specifications rather than from a simulation. <strong>Left:</strong> Bluetooth hops across 79 one-megahertz channels; the three non-overlapping Wi-Fi channels cover 68 of them, leaving 11 clear. Adaptive frequency hopping is supposed to route Bluetooth around Wi-Fi — but the Bluetooth specification forbids a hop set smaller than 20 channels, so <strong>with all three Wi-Fi channels in use, AFH is not permitted to avoid Wi-Fi.</strong> At least nine of its hop channels must sit inside a Wi-Fi carrier. <strong>Right:</strong> AFH lets Bluetooth avoid Wi-Fi; nothing lets it avoid other Bluetooth. As pairings scale to one per seat, the chance that any given Bluetooth slot is contested by another link in the cabin approaches certainty.
+    <br><br><em>Read these as a description of a shared medium, not a prediction of dropped audio.</em> Bluetooth retransmits, and the capture effect means a passenger's own earbuds a few centimetres away usually win against a neighbour's a metre off — so the audio will mostly survive. It survives by <strong>retransmitting</strong>, which is more airtime in the same band, which is the point. The conclusion is not that Bluetooth fails. It is that <strong>2.4 GHz stops being a medium Wi-Fi can be planned around.</strong></figcaption>
+  </figure>
+
+  <figure style="margin-top:34px">
+    <div class="diag" id="diagPhase"></div>
+    <figcaption><b>Figure 8 — the double-jeopardy window.</b> Three constraints stack in the same part of the flight. Below 10,000 feet the 6&nbsp;GHz band is legally unavailable, so the cabin falls back to congested 2.4 and 5&nbsp;GHz. Below roughly 17,000 feet measured satellite uplink degrades — 33&nbsp;Mbps above, 20&nbsp;Mbps below, in the only published in-flight measurement study. And on 65 of 143 destinations the aircraft is in airspace with no in-motion authorisation. All three coincide with the moment most passengers first connect and form their impression of the product.</figcaption>
+  </figure>
+
+  <div class="cols" style="margin-top:34px">
+    <div class="body">
+      <h4>The DFS problem on 5 GHz</h4>
+      <p>The 5&nbsp;GHz band is not one band but four sub-bands with different rules, and in an aircraft two of them are effectively unusable.</p>
+      <p><strong>U-NII-2A (5.250–5.350&nbsp;GHz)</strong> and <strong>U-NII-2C (5.470–5.725&nbsp;GHz)</strong> — together the majority of 5&nbsp;GHz spectrum — require <strong>Dynamic Frequency Selection</strong>. The device must listen for radar, and on detecting a signal at or above the threshold (−64&nbsp;dBm, or −62&nbsp;dBm for lower-power devices) it must <strong>cease transmission within 10 seconds</strong> and vacate the channel. Before using such a channel at all it must first complete a channel availability check.</p>
+      <p>Those same sub-bands also require <strong>Transmit Power Control</strong>: the device must be capable of operating <strong>at least 6&nbsp;dB below the mean EIRP of 30&nbsp;dBm</strong>. A 6&nbsp;dB reduction is a factor of four in radiated power — which, in a metal tube where coverage is already marginal at the seat, is not a trivial concession.</p>
+      <p>An aircraft is the worst possible environment for DFS. It is surrounded by radar — its own weather radar, radar altimeters, and ground-based primary and terminal radar as it descends through the busiest airspace in the world. <strong>A false detection costs the channel for thirty minutes.</strong> The practical consequence is that cabin deployments tend to avoid the DFS sub-bands, which leaves <strong>U-NII-1 (5.150–5.250) and U-NII-3 (5.725–5.850)</strong> — a fraction of the band, shared among several hundred devices.</p>
+      <p class="cap2" style="margin-top:0">DFS and TPC requirements above are quoted from §15.407. That cabin vendors disable DFS channels in flight is widely reported practice rather than a published rule, and should be confirmed with the equipment supplier rather than assumed.</p>
+    </div>
+    <div class="body">
+      <h4>What a modern cabin estate would do differently</h4>
+      <ul>
+        <li><strong>Use 6&nbsp;GHz above 10,000 feet</strong> as the primary band for capable devices, with automatic fallback below it. This alone is the largest available improvement in cabin throughput, and it costs nothing in satellite capacity.</li>
+        <li><strong>Band-steer deliberately.</strong> Push capable clients up, keep 2.4&nbsp;GHz for the long tail of older devices and for coverage at the cabin extremities.</li>
+        <li><strong>Design the AP layout by RF survey</strong>, not by symmetry. Coverage in a twin-aisle varies enormously between the crown, the seat and the window, and between an empty cabin and a full one. A cabin at load factor attenuates 5 and 6&nbsp;GHz markedly more than the same cabin empty — which is precisely the condition nobody ever surveys in.</li>
+        <li><strong>Put sensors in the cabin.</strong> Dedicated WLAN sensors do what no access point can: measure the network as a client experiences it, from the seat, continuously, in flight. Section 11 develops this.</li>
+        <li><strong>Exploit the BLE and Zigbee radios</strong> already present in modern cabin APs — for crew position awareness, galley and trolley tracking, and equipment location. This is discussed in section 8 and is one of the few places in this paper where a cost line turns into a saving.</li>
+      </ul>
+
+      <h4>The honest gap</h4>
+      <p><strong>No published study has ever measured the Wi-Fi hop in flight.</strong> Both of the peer-reviewed in-flight measurement papers on LEO connectivity measured a single device on a lightly-loaded aircraft; neither instrumented the cabin network. So the industry has no public evidence on whether the satellite link or the cabin radio is the binding constraint on a full aircraft. <strong>That is an extraordinary hole, and it is cheap to fill.</strong></p>
+    </div>
+  </div>
+
+  <div class="vend">
+    <div class="vt">Cabin wireless — equipment and RF tooling</div>
+    <div class="vrow" data-vendors="Astronics|cabin AP;Kontron|cabin AP;Collins Aerospace|cabin systems;HPE Aruba Networking|WLAN sensors;Ekahau|RF design;NetAlly|RF test"></div>
+  </div>
+</section>
+
+<section id="s6">
+  <div class="sh">
+    <span class="t">06 · Constraint four</span>
+    <h3>Control — nothing is measured, and nothing can be steered</h3>
+    <p>The first three constraints are physical. This one is structural, and it is the reason the other three persist.</p>
+  </div>
+
+  <div class="cols">
+    <div class="body">
+      <h4>Four things that are absent</h4>
+      <p><strong>There is no policy layer.</strong> Traffic on the aircraft is unmanaged. Every session competes equally with every other, which sounds fair and is not: it means the passenger checking a boarding pass competes on equal terms with a laptop downloading an operating-system update, and loses. There is no fair-use ceiling, no background-traffic suppression, no differentiation by cabin, and no protection for the interactive traffic that passengers actually notice.</p>
+      <p><strong>There is no telemetry.</strong> Emirates cannot currently answer: how did connectivity perform on EK203 yesterday? Which aircraft are the worst performers? Did the Mumbai sector degrade over Pakistani airspace? Is tail A6-EOK's cabin Wi-Fi underperforming its sister ship? These are ordinary network-operations questions and none of them can be answered today.</p>
+      <p><strong>The service level agreement is declared but not documented.</strong> Starlink markets its top aviation tier as "backed by a Service Level Agreement", but the only SLA it actually publishes is the <strong>Priority Plan SLA</strong> — and Starlink's own <em>General Aviation Terms of Service</em> state in terms that <strong>"The General Aviation Plans are not eligible for the Priority Plan Service Level Agreement."</strong> No aviation-specific SLA terms appear anywhere on the site. Section 11 takes this apart properly; the point here is that the commitment a fleet of 623 aircraft would be relying on is, in public, a single asterisked sentence.</p>
+      <p><strong>There is one bearer and one roadmap.</strong> The airline inherits the vendor's hardware generation, upgrade timetable and licensing position. When the July 2026 list price for global unlimited service doubled, there was no second quote to negotiate against.</p>
+    </div>
+    <div class="body">
+      <h4>Why this one is the root cause</h4>
+      <p>Notice that constraints one, two and three are all made worse by constraint four, and that fixing four is a precondition for fixing the others:</p>
+      <ul>
+        <li>The capacity problem is unfixable without a <strong>policy layer</strong> to shape it.</li>
+        <li>The coverage problem is unquantifiable without <strong>telemetry</strong> to measure where and when service actually drops.</li>
+        <li>The cabin problem is undiagnosable without <strong>sensors</strong> reporting from the seat.</li>
+        <li>And the commercial problem is unnegotiable without <strong>evidence</strong> of delivered performance.</li>
+      </ul>
+      <p>This is why Part III begins where it does. The first recommendation is not a bigger pipe, a second satellite or a new access point. It is <strong>a box Emirates owns, in the path, between the terminal and the cabin</strong> — because that box is what makes every subsequent improvement a configuration change rather than a procurement.</p>
+
+      <h4>The opening that already exists</h4>
+      <p>The Starlink aviation terminal presents <strong>two Ethernet ports</strong>. One feeds the supplied wireless access points. <strong>The second is available.</strong> Everything in Part III hangs off that port, and none of it requires Starlink's cooperation, a contract renegotiation, or a change to the terminal.</p>
+      <p>That is an unusually cheap place to stand.</p>
+    </div>
+  </div>
+
+  <div class="callout dn">
+    <span class="l">The four constraints, and who owns them</span>
+    <p><strong>Capacity</strong> is owned jointly with the bearer and is mitigated by policy. <strong>Coverage</strong> is owned entirely by the bearer and is mitigated only by a second one. <strong>The cabin</strong> is owned entirely by Emirates today and is the cheapest to fix. <strong>Control</strong> is owned entirely by Emirates and is the precondition for the rest. Three of the four are inside the airline's own decision-making. That is the good news in this paper.</p>
+  </div>
+</section>
+
+<div class="part" id="p3">
+  <div class="pn">Part III</div>
+  <h2>The architecture</h2>
+  <p>The answer, ordered from the single decision everything else depends on, outward. One structural change makes the remaining four cheap; without it, each of them is a separate programme.</p>
+</div>
+
+<section id="s7">
+  <div class="sh">
+    <span class="t">07</span>
+    <h3>The principle — a router Emirates owns</h3>
+    <p>One box, in the path, under Emirates' control. Everything else in this paper is a configuration change on it.</p>
+  </div>
+
+  <figure>
+    <div class="dgrid">
+      <div class="diag">
+        <div class="dlab">Today — <b>Starlink controls the path end to end</b></div>
+        <svg viewBox="0 0 440 470" role="img" aria-label="Current architecture: Starlink terminal contains modem, router and Wi-Fi access points">
+          <defs>
+            <marker id="ar1" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <g font-family="Barlow,sans-serif" color="var(--muted)">
+            <!-- satellite -->
+            <g transform="translate(220,26)">
+              <!-- bus -->
+              <rect x="-15" y="-13" width="30" height="19" rx="2" fill="var(--surface2)" stroke="var(--rule)" stroke-width="1.3"/>
+              <!-- solar array, one side, as on a Starlink vehicle -->
+              <rect x="17" y="-11" width="40" height="15" rx="1" fill="var(--surface)" stroke="var(--rule)" stroke-width="1.2"/>
+              <path d="M27 -11 L27 4 M37 -11 L37 4 M47 -11 L47 4" stroke="var(--rule)" stroke-width=".9"/>
+              <path d="M15 -4 L17 -4" stroke="var(--rule)" stroke-width="1.3"/>
+              <!-- phased-array panel underneath -->
+              <rect x="-13" y="6" width="26" height="5" rx="1" fill="var(--surface)" stroke="var(--rule)" stroke-width="1.1"/>
+              <!-- downlink cone -->
+              <path d="M-6 11 L-15 30 M6 11 L15 30" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3 3"/>
+              <!-- neighbours on the laser mesh -->
+              <g opacity=".5">
+                <rect x="-104" y="-8" width="15" height="10" rx="1.5" fill="var(--surface2)" stroke="var(--rule)"/>
+                <rect x="-87" y="-6" width="18" height="7" rx="1" fill="var(--surface)" stroke="var(--rule)"/>
+                <rect x="89" y="-8" width="15" height="10" rx="1.5" fill="var(--surface2)" stroke="var(--rule)"/>
+                <rect x="72" y="-6" width="18" height="7" rx="1" fill="var(--surface)" stroke="var(--rule)"/>
+                <path d="M-69 -3 L-15 -3 M15 -3 L72 -3" stroke="var(--ok)" stroke-width="1" stroke-dasharray="2 3"/>
+              </g>
+              <text y="44" text-anchor="middle" font-size="12" fill="var(--muted)">Starlink constellation</text>
+            </g>
+            <path d="M220 78 L220 96" stroke="var(--rule)" stroke-width="2" marker-end="url(#ar1)" color="var(--rule)"/>
+            <!-- starlink domain -->
+            <rect x="40" y="100" width="360" height="248" rx="4" fill="color-mix(in srgb,var(--em) 7%,transparent)" stroke="var(--em)" stroke-dasharray="5 4"/>
+            <text x="52" y="120" font-size="10.5" font-family="var(--fm)" letter-spacing="1" fill="var(--em)">STARLINK DOMAIN</text>
+            <g>
+              <rect x="66" y="134" width="308" height="52" rx="3" fill="var(--surface)" stroke="var(--rule)"/>
+              <text x="220" y="158" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">Aviation terminal · modem</text>
+              <text x="220" y="175" text-anchor="middle" font-size="11.5" fill="var(--muted)">Phased array · 2 or 3 per aircraft</text>
+            </g>
+            <path d="M220 186 L220 208" stroke="var(--rule)" stroke-width="2" marker-end="url(#ar1)" color="var(--rule)"/>
+            <g>
+              <rect x="66" y="212" width="308" height="50" rx="3" fill="var(--surface)" stroke="var(--rule)"/>
+              <text x="220" y="234" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">Router · NAT · DHCP</text>
+              <text x="220" y="251" text-anchor="middle" font-size="11.5" fill="var(--muted)">No policy · no classification · no telemetry</text>
+            </g>
+            <path d="M220 262 L220 284" stroke="var(--rule)" stroke-width="2" marker-end="url(#ar1)" color="var(--rule)"/>
+            <g>
+              <rect x="66" y="288" width="308" height="50" rx="3" fill="var(--surface)" stroke="var(--rule)"/>
+              <text x="220" y="310" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">Wi-Fi 5 access points</text>
+              <text x="220" y="327" text-anchor="middle" font-size="11.5" fill="var(--muted)">2.4 &amp; 5 GHz only · no 6 GHz</text>
+            </g>
+            <path d="M220 348 L220 376" stroke="var(--rule)" stroke-width="2" marker-end="url(#ar1)" color="var(--rule)"/>
+            <g>
+              <rect x="66" y="380" width="308" height="44" rx="3" fill="var(--surface2)" stroke="var(--rule)"/>
+              <text x="220" y="407" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">660–850 passenger devices</text>
+            </g>
+            <!-- emirates control -->
+            <rect x="40" y="436" width="360" height="26" rx="3" fill="none" stroke="var(--rule)" stroke-dasharray="4 3"/>
+            <text x="220" y="453" text-anchor="middle" font-size="11.5" fill="var(--muted)">Emirates controls: the portal splash page</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="diag">
+        <div class="dlab">Proposed — <b>Emirates owns everything below the modem</b></div>
+        <svg viewBox="0 0 440 470" role="img" aria-label="Proposed architecture: Emirates router behind the terminal's second port">
+          <g font-family="Barlow,sans-serif">
+            <!-- bearers -->
+            <g transform="translate(130,26)">
+              <rect x="-24" y="-14" width="48" height="22" rx="3" fill="var(--surface2)" stroke="var(--rule)"/>
+              <text y="24" text-anchor="middle" font-size="11.5" fill="var(--muted)">Starlink</text>
+            </g>
+            <g transform="translate(308,26)">
+              <rect x="-24" y="-14" width="48" height="22" rx="3" fill="none" stroke="var(--dn)" stroke-dasharray="4 3"/>
+              <text y="20" text-anchor="middle" font-size="10.5" fill="var(--dn)">Potential 2nd</text><text y="33" text-anchor="middle" font-size="10.5" fill="var(--dn)">LEO / MEO constellation</text>
+            </g>
+            <path d="M130 56 L130 104" stroke="var(--rule)" stroke-width="2" marker-end="url(#ar1)" color="var(--rule)"/>
+            <path d="M310 62 L310 186" stroke="var(--dn)" stroke-width="1.6" stroke-dasharray="4 3" fill="none" marker-end="url(#ar1)" color="var(--dn)"/>
+            <text x="318" y="140" font-size="9.5" font-family="var(--fm)" fill="var(--dn)">WAN 2</text>
+            <rect x="52" y="86" width="156" height="34" rx="3" fill="color-mix(in srgb,var(--em) 7%,transparent)" stroke="var(--em)" stroke-dasharray="5 4"/>
+            <text x="130" y="108" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">Terminal · modem only</text>
+            <text x="130" y="136" text-anchor="middle" font-size="10.5" font-family="var(--fm)" fill="var(--em)">PORT 2</text>
+            <path d="M130 140 L130 158" stroke="var(--em)" stroke-width="2" marker-end="url(#ar1)" color="var(--em)"/>
+            <!-- emirates domain -->
+            <rect x="26" y="162" width="388" height="198" rx="4" fill="color-mix(in srgb,var(--dn) 7%,transparent)" stroke="var(--dn)"/>
+            <text x="38" y="182" font-size="10.5" font-family="var(--fm)" letter-spacing="1" fill="var(--dn)">EMIRATES DOMAIN</text>
+            <rect x="44" y="192" width="352" height="78" rx="3" fill="var(--surface)" stroke="var(--rule)"/>
+            <text x="220" y="214" text-anchor="middle" font-size="14.5" font-weight="700" fill="var(--ink)">Emirates cabin router</text>
+            <g font-size="10" font-family="var(--fm)" fill="var(--muted)" text-anchor="middle">
+              <text x="105" y="232">POLICY · QOS</text><text x="220" y="232">DPI · CLASSIFY</text><text x="335" y="232">BEARER SELECT</text>
+              <text x="105" y="246">SHAPE · FAIR USE</text><text x="220" y="246">DNS · CACHE</text><text x="335" y="246">LOAD BALANCING</text>
+              <text x="105" y="260">TELEMETRY</text><text x="220" y="260">DOMAIN SPLIT</text><text x="335" y="260">FAIL-OPEN BYPASS</text>
+            </g>
+            <path d="M220 270 L220 288" stroke="var(--rule)" stroke-width="2" marker-end="url(#ar1)" color="var(--rule)"/>
+            <rect x="44" y="292" width="352" height="54" rx="3" fill="var(--surface)" stroke="var(--rule)"/>
+            <text x="220" y="314" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">Cabin Wi-Fi 6E / 7 estate</text>
+            <text x="220" y="332" text-anchor="middle" font-size="11.5" fill="var(--muted)">6 GHz above 10,000 ft · BLE + Zigbee · sensors</text>
+            <!-- outputs -->
+            <path d="M150 360 L150 376" stroke="var(--rule)" stroke-width="2" marker-end="url(#ar1)" color="var(--rule)"/>
+            <path d="M310 360 L310 376" stroke="var(--rule)" stroke-width="2" marker-end="url(#ar1)" color="var(--rule)"/>
+            <rect x="34" y="380" width="232" height="44" rx="3" fill="var(--surface2)" stroke="var(--rule)"/>
+            <text x="150" y="407" text-anchor="middle" font-size="13.5" font-weight="600" fill="var(--ink)">Passenger devices</text>
+            <rect x="278" y="380" width="128" height="44" rx="3" fill="var(--surface2)" stroke="var(--rule)"/>
+            <text x="342" y="400" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">Crew &amp; ops</text>
+            <text x="342" y="415" text-anchor="middle" font-size="11" fill="var(--muted)">separate domain</text>
+            <!-- telemetry -->
+            <path d="M396 231 L424 231 L424 448 L240 448" stroke="var(--ok)" stroke-width="1.6" fill="none" stroke-dasharray="4 3" marker-end="url(#ar1)" color="var(--ok)"/>
+            <text x="150" y="452" text-anchor="middle" font-size="11.5" fill="var(--ok)">Telemetry → Emirates operations</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <figcaption><b>Figure 9 — before and after.</b> The change is small in hardware terms and total in control terms. Today the bearer supplies the modem, the router and the access points, and Emirates supplies a splash page. In the proposed architecture the bearer supplies a modem, and everything between that modem and the passenger is Emirates'. No change to the terminal, no renegotiation, no cooperation required from the supplier.</figcaption>
+  </figure>
+
+  <div class="cols" style="margin-top:34px">
+    <div class="body">
+      <h4>What the box has to do</h4>
+      <ul>
+        <li><strong>Two or more WAN interfaces</strong>, with per-flow selection rather than simple active/standby — so a second bearer, when and if it arrives, is a configuration change.</li>
+        <li><strong>Traffic classification and shaping</strong> at line rate, with fair-use ceilings, per-class queues and background suppression.</li>
+        <li><strong>A policy engine that understands cabin</strong> — able to treat a First or Business session differently under congestion without ever stopping service to Economy.</li>
+        <li><strong>DNS resolution at the aircraft</strong>, and a content cache if the evaluation in section 10 supports one.</li>
+        <li><strong>Per-flow, per-phase telemetry</strong> exported to the ground — the raw material for section 11.</li>
+        <li><strong>Hard separation of passenger, crew and operational domains</strong>, so either bearer can carry either domain without the two ever meeting.</li>
+        <li><strong>Certified compute</strong> — DO-160G environmental qualification, DO-326A security process, and an installation that respects the ACD/AISD/PIESD domain boundaries.</li>
+      </ul>
+    </div>
+    <div class="body">
+      <h4>Why this is the first decision and not the fifth</h4>
+      <p>Because it is the only one that is <strong>irreversible if got wrong and nearly free if got right</strong>. A router specified today with two WAN ports, an open policy API and an exportable telemetry stream costs essentially the same as one without them. Specify it without them and adding a second bearer in 2029 stops being a software change and becomes an industrial programme: several hundred aircraft through the hangar, a fresh certification basis, and engineering hours measured in the hundreds of thousands. <strong>The difference between those two futures is a line in a specification written this year.</strong></p>
+      <p>It also changes what every later conversation is about. With the box in place, "can we prioritise Business class?" is a policy question. "Can we cache Netflix?" is a capacity question. "Is Starlink meeting its commitments?" is a data question. Without it, all three are procurement questions with a twelve-month lead time.</p>
+      <h4>The honest constraint</h4>
+      <p>Inserting equipment into the path between a certified terminal and the cabin is not trivial. It needs an STC amendment, it consumes power and space, it adds weight, and it introduces a failure point that must fail open. <strong>None of that is a reason not to do it; all of it is a reason to do it once, deliberately, at the front of the programme</strong> rather than in three uncoordinated increments.</p>
+    </div>
+  </div>
+
+  <div class="vend">
+    <div class="vt">Airborne compute, routing and security — categories with exemplars</div>
+    <div class="vrow" data-vendors="Kontron|certified compute;Collins Aerospace|cabin systems;Astronics|power &amp; networking"></div>
+  </div>
+</section>
+
+<section id="s8">
+  <div class="sh">
+    <span class="t">08</span>
+    <h3>The cabin estate</h3>
+    <p>The cheapest constraint to fix, entirely within Emirates' control, and the one with the clearest line to something a passenger can feel.</p>
+  </div>
+
+  <div class="cols">
+    <div class="body">
+      <h4>Access points</h4>
+      <p>Replace or supplement the terminal's Wi-Fi 5 access points with a purpose-built cabin estate. The specification that matters:</p>
+      <ul>
+        <li><strong>Tri-radio 2.4 / 5 / 6&nbsp;GHz</strong>, certified into one of the two device classes permitted on aircraft, with the 6&nbsp;GHz radios gated on altitude.</li>
+        <li><strong>Several hundred concurrent clients per radio</strong>, which the model in section 3 says is the real requirement rather than a marketing number.</li>
+        <li><strong>DO-160G qualification</strong> and, for anything that touches the network path, a DO-326A security case.</li>
+        <li><strong>Integrated BLE and Zigbee radios</strong> — present in current cabin APs and, today, switched off.</li>
+      </ul>
+      <p>Placement should follow an <strong>RF survey of a loaded cabin</strong>, not a symmetric layout. On a twin-aisle the difference between crown and seat-level signal is substantial, and between empty and full is larger still.</p>
+
+      <h4>Sensors</h4>
+      <p>Dedicated WLAN sensors measure what an access point structurally cannot: the network <em>as a client at a seat experiences it</em>. Association time, DHCP time, DNS time, portal load time, throughput and retry rate — continuously, in flight, per cabin zone.</p>
+      <p>A handful of sensors per aircraft on a sub-fleet, correlated with the satellite-side telemetry from section 11, would <strong>settle the question the whole industry is currently guessing at</strong>: on a full aircraft, is the constraint the satellite link or the cabin radio? Nobody has published an answer. Emirates could have one in a quarter.</p>
+    </div>
+    <div class="body">
+      <h4>The BLE and Zigbee layer — the one line that pays for itself</h4>
+      <p>Modern cabin access points ship with Bluetooth Low Energy and Zigbee radios already fitted and certified. Using them requires no new hardware, no new STC and no new radome — only battery-powered tags and software.</p>
+      <ul>
+        <li><strong>Cabin crew position awareness.</strong> Where each crew member is, in real time, on a cabin map — visible to the purser and to the flight deck. Useful in normal operation for service coordination; materially more useful in an abnormal one, when knowing where everybody is has a different value entirely.</li>
+        <li><strong>Trolley, galley and equipment tracking.</strong> Which trolley is where, which emergency equipment is present, which items were removed. Catering reconciliation and cabin-readiness checks are today manual, time-consuming and a known source of turnaround delay.</li>
+        <li><strong>Wheelchair, infant equipment and special-assistance items</strong> tracked rather than searched for.</li>
+        <li><strong>Passenger-facing, optionally:</strong> seat-level location as an input to service — knowing which seat a request came from without the passenger explaining it.</li>
+      </ul>
+      <p>This is the one intervention in this paper with a direct operational return rather than an experience return, and it runs on radios the airline has already bought.</p>
+      <p class="cap2" style="margin-top:0">Crew location tracking touches employment and privacy considerations and should be designed with the relevant staff representatives from the start, scoped to on-duty periods and to the aircraft. Treated as a safety and service tool it is defensible; treated as a monitoring tool it will not survive contact with the workforce, and should not.</p>
+    </div>
+  </div>
+</section>
+
+<section id="s9">
+  <div class="sh">
+    <span class="t">09</span>
+    <h3>The policy layer</h3>
+    <p>What the router does with the traffic. This is where the capacity model's mitigations stop being toggles in a web page and become the product.</p>
+  </div>
+
+  <div class="cols">
+    <div class="body">
+      <h4>Three controls, in order of value</h4>
+      <p><strong>1 — A fair-use ceiling on the greedy few.</strong> The model says roughly 5% of sessions take two thirds of downlink. A per-session ceiling that engages only under congestion, bounding sustained bulk transfers while leaving interactive traffic untouched, is the single highest-value control available. <strong>Nobody except the 5% notices, and they notice only that a download is slower.</strong></p>
+      <p><strong>2 — Background suppression.</strong> Automatic photo and cloud backup is almost pure uplink, runs unattended, and no passenger has ever asked for it to run at 38,000 feet. Deferring it — not blocking it, deferring it — is the largest uplink-specific recovery available, and it removes traffic the passenger does not know exists.</p>
+      <p><strong>3 — Protecting what is noticed.</strong> Messaging, page loads, boarding passes, maps and video calls are what passengers judge the network by. Giving them scheduling priority over bulk transfer costs the bulk transfer a few seconds and changes the perceived quality of the whole cabin.</p>
+
+      <h4>What this is not</h4>
+      <p>It is not blocking. It is not throttling by application or by site. It is not inspecting content. The classification needed here operates on flow behaviour and works perfectly well on encrypted traffic, which is now essentially all traffic. <strong>Any design that depends on seeing inside the payload is both unnecessary and unacceptable</strong>, and should be rejected on both grounds.</p>
+    </div>
+    <div class="body">
+      <h4>Cabin-class treatment, done carefully</h4>
+      <p>Emirates already differentiates every other element of the product by cabin. Connectivity is the one that does not — every session on the aircraft is treated identically, which means a First Class passenger and a torrent get the same scheduler.</p>
+      <p>The right design is narrow and specific:</p>
+      <ul>
+        <li><strong>It engages only under congestion.</strong> When the link has headroom — which is most of a quiet sector — every passenger gets everything available and the policy is invisible.</li>
+        <li><strong>It is relative, not absolute.</strong> Premium cabins get a larger share of the contended resource. Economy is never stopped, never blocked, never given a degraded floor. <strong>The majority of passengers are in Economy and the product must stay good for them</strong> — a policy that visibly starves the back of the aircraft would be worse than no policy at all.</li>
+        <li><strong>It is scheduling weight, not bandwidth caps.</strong> Under contention, premium packets are scheduled first; the difference shows up as lower latency and faster page loads rather than a number on a speed test.</li>
+        <li><strong>It is bounded.</strong> A defined minimum service level for every cabin, guaranteed before any premium weighting applies.</li>
+      </ul>
+      <h4>Identity without a login</h4>
+      <p>Applying cabin-based policy requires knowing which cabin a device is in. The portal does ask for a seat number, but a field typed by a passenger at the moment they want the internet to start is not a control input: it is optional in practice, unverified, easy to mistype, and absent for every additional device the same passenger connects. <strong>Policy cannot be driven from it.</strong></p>
+      <p>The answer is not a heavier login either. It is <strong>topology</strong>: access points are physically located in cabin zones, so the AP a device associates with is a good proxy for where that passenger is sitting. Combined with the seat map for the flight, that gives cabin-level policy with <strong>no additional identity capture, no login, and no change to the passenger experience whatsoever</strong>. It is approximate at cabin boundaries, and that is acceptable for a scheduling weight. Where the typed seat number <em>is</em> useful is as a cross-check — reconciled after the flight against the manifest, it tells you how good the topology inference was, which is exactly the kind of thing section 11's instrumentation should be measuring anyway.</p>
+    </div>
+  </div>
+
+  <div class="vend">
+    <div class="vt">Traffic classification and policy — categories with exemplars</div>
+    <div class="vrow" data-vendors="AppLogic Networks|classification &amp; policy;Quvia|aviation QoE;Moment|aviation QoE;Allot|classification &amp; policy"></div>
+  </div>
+</section>
+
+<section id="s10">
+  <div class="sh">
+    <span class="t">10</span>
+    <h3>The short path</h3>
+    <p>Content that never crosses the satellite link is content that costs nothing and arrives instantly. Three interventions, in descending order of certainty.</p>
+  </div>
+
+  <div class="cols">
+    <div class="body">
+      <h4>DNS at the aircraft — the first thing the router should do</h4>
+      <p>Every connection begins with a name lookup. Today each one crosses the satellite link and back. On a LEO link that is 40–80&nbsp;ms per lookup, and a single modern web page may trigger dozens across multiple domains.</p>
+      <p>A resolver on the aircraft router with a warm cache removes most of that latency for repeated lookups, and the cache warms within minutes of a cabin connecting. <strong>This is close to free, needs no partner, no commercial negotiation and no content rights</strong> — and it is measurable from the first flight. <strong>It belongs in the first release of the router configuration</strong> — which is why this paper treats the box and what runs on it as a single initiative, <em>Policy, Shaping and DNS</em>, rather than as a hardware project with software bolted on later.</p>
+
+      <h4>Edge caching — evaluate, then gate hard</h4>
+      <p>Video is the largest single consumer of downlink, and streaming demand is concentrated: a small fraction of any catalogue accounts for the large majority of views. In principle, prepositioning that fraction on the aircraft removes it from the satellite link entirely.</p>
+      <p>The mechanisms exist. Specialist aviation edge-CDN vendors do exactly this, and at least one holds a patent describing the operation of major streaming and search providers' own caching appliances aboard an aircraft.</p><p><strong>To be precise about what is being cached here, because it is easily confused.</strong> This is not about <em>ice</em>. The seatback library already lives on the aircraft and crosses no satellite link at all. What this section addresses is the content passengers pull <strong>onto their own phones, tablets and laptops over the cabin Wi-Fi</strong> — streaming services, app stores, software updates, and the video embedded in every social feed. That traffic is the downlink load modelled in section 3, and it is the only traffic an onboard cache can touch.</p><p>The first-party case that needs no negotiation at all is narrower: the portal, destination content and the Emirates app's own payloads, which the airline owns outright.</p>
+      <p>Third-party content is where it becomes genuinely hard, and the paper should say so rather than assume it away.</p>
+    </div>
+    <div class="body">
+      <h4>The three gates any caching proposal must pass</h4>
+      <ol>
+        <li><strong>Traffic evidence.</strong> Measure what is actually streamed in the cabin before buying anything to cache it. The instrumentation in section 11 produces this as a by-product. If the measured cacheable fraction is small, the business case ends here and that is a good outcome — a cheap answer to an expensive question.</li>
+        <li><strong>Commercial and rights validation.</strong> Caching a third party's content requires that third party's cooperation and, usually, their hardware and their terms. Whether a major streaming provider will place a cache on an aircraft, and on what commercial basis, is not a technical question and cannot be assumed. <strong>But Emirates should not enter that conversation as a supplicant.</strong> The airline carries on the order of <strong>53 million passengers a year across roughly 180,000 flights</strong>, into 152 cities in 80 countries — an affluent, captive, long-dwell audience that these providers reach no other way. In subscriber terms that is the scale of a national telco, and it is precisely the scale at which content providers already place caches inside operator networks at their own cost, because a better-performing service retains their subscribers too. <strong>The right framing is peer to peer: a distribution partner of Tier-1 scale discussing how both parties serve the same customer at 38,000 feet</strong> — not an airline asking a favour.</li>
+        <li><strong>Proof on a sub-fleet.</strong> Measured hit rate and measured offload on real aircraft before any fleet commitment. A cache with a 20% hit rate and a 40% hit rate are entirely different investments.</li>
+      </ol>
+      <p>And one thing caching does not do, which matters given everything above: <strong>it moves downlink and does nothing at all for uplink.</strong> It is valuable, and it is not the answer to the binding constraint.</p>
+
+      <h4>Peering and private interconnect</h4>
+      <p>Emirates' own digital properties — the app, emirates.com, check-in, the portal, <em>ice</em> content delivery — are hosted in known cloud regions. Traffic to them currently takes the public path from a Starlink gateway wherever it happens to egress.</p>
+      <p>Two improvements follow. <strong>Direct peering</strong> between the bearer and the cloud regions where Emirates hosts shortens that path and makes its performance predictable rather than incidental — the airline's own properties should be the fastest thing on the aircraft, and today they are not. <strong>Private interconnect</strong> for operational, crew and aircraft data provides a path that never touches the public internet, which is the appropriate posture for that traffic class regardless of performance.</p>
+      <p><strong>And there is measured evidence that this matters more than it sounds.</strong> The only published in-flight Starlink measurement study — Ullah and colleagues at VTT Finland and the University of Pisa, August 2025 — traced the path from a passenger laptop and found the round trip is dominated not by the satellite hop but by <strong>how far the aircraft is from whichever ground station Starlink happens to be using.</strong> Over the Baltic, served by a gateway in Frankfurt at a median 562&nbsp;km, they measured a median RTT of <strong>23&nbsp;ms</strong>. Over the Pacific, served by Tokyo at a median 2,450&nbsp;km, the same setup measured <strong>62&nbsp;ms</strong>, rising to 86&nbsp;ms at 4,900&nbsp;km. The physics accounts for very little of that: service link and feeder link together contribute a median of just <strong>6.62&nbsp;ms</strong>. The rest is inter-satellite routing, queueing and the terrestrial path — in other words, <strong>the part that peering and gateway placement determine.</strong></p><p><strong>And there is a specific, checkable gap here.</strong> Starlink's own PeeringDB record (AS14593) lists <strong>143 internet-exchange presences worldwide and not one of them in the UAE</strong>. Its only Middle East exchange presence is QIX in Doha; its declared private facilities in the region are in Doha and Muscat. UAE-IX in Dubai — the largest exchange in the Middle East, run by DE-CIX and established with du and the regulator — does not list them. <strong>So traffic from an Emirates aircraft over Emirates' own hub is, on the bearer's own published record, not landing on a UAE fabric.</strong> Starlink's declared peering policy is open, with no ratio and no contract requirement, which makes this a matter of deployment rather than of willingness.</p><p>My own read of where this goes next — and I flag it as my read rather than as a published fact — is that it changes shortly: <strong>I expect Starlink to land traffic at Fujairah, the Gulf's principal cable-landing hub, and to follow it with a point of presence in the UAE.</strong> The regulatory precondition is already in place; the TDRA granted Starlink a ten-year general space services licence in August 2026 that names the aviation sector explicitly. If that lands, the case for peering locally stops being theoretical and becomes a short commercial conversation with a counterparty that is already open to it.</p><p><strong>The action is the same either way, and it costs nothing today: ask the question now, and make sure the router in section 7 is able to use the answer when it comes.</strong></p>
+    </div>
+  </div>
+
+  <div class="vend">
+    <div class="vt">Caching, cloud and interconnect — categories with exemplars</div>
+    <div class="vrow" data-vendors="Netskrt|aviation edge CDN;Siden|content prepositioning;Axinom|media delivery;Netflix Open Connect|content source;Google GGC|content source;AWS|cloud;Microsoft Azure|cloud;DE-CIX|exchange;UAE-IX|exchange;Equinix|interconnect"></div>
+  </div>
+</section>
+
+<section id="s11">
+  <div class="sh">
+    <span class="t">11</span>
+    <h3>Instrumentation — and the contract it makes enforceable</h3>
+    <p>The section that converts every assertion in Part II into a measurement, and every measurement into commercial leverage.</p>
+  </div>
+
+  <div class="cols">
+    <div class="body">
+      <h4>Four layers, each answering a different question</h4>
+      <p><strong>1 — The bearer.</strong> An agent on the Emirates router measuring the satellite link continuously: throughput both directions, latency, loss, jitter, path, and the identity of the ground egress. Per flight, per phase, per region. <strong>This is what answers the question section 4 cannot: does service actually drop over unauthorised airspace, where, at what altitude, and for how long?</strong></p>
+      <p><strong>2 — The cabin.</strong> WLAN sensors at seat level, as described in section 8, measuring what a client experiences rather than what an access point reports.</p>
+      <p><strong>3 — The device.</strong> A lightweight measurement component embedded in the Emirates app, active in the background only when the app is open and the device is on the aircraft network. It measures the one thing nothing else can: the experience on the passenger's actual handset, with their actual device, in their actual seat. The payload is kilobytes, not megabytes.</p>
+      <p><strong>4 — The service.</strong> Synthetic tests from the aircraft against the destinations that matter — Emirates' own properties first, then the handful of services passengers actually use — so degradation is attributed to the right hop rather than argued about.</p>
+      <p class="cap2" style="margin-top:0">On the app component: it should be <strong>disclosed once, clearly, in the privacy notice and in the app's own settings</strong>, and silent thereafter. That is the normal standard for diagnostic telemetry and the only one that survives a regulator, an app-store review or a journalist. "Passive and disclosed" is the correct description; anything that relies on the passenger not knowing is both wrong and fragile.</p>
+    </div>
+    <div class="body">
+      <h4>What instrumentation is really for</h4>
+      <p>The obvious use is engineering: find the bad aircraft, the bad sector, the bad access point. That alone justifies it.</p>
+      <p>The larger use is commercial, and it turns on exactly what the supplier has and has not committed to. That deserves stating carefully, because it is easy to get wrong in both directions.</p><p><strong>An SLA is declared. No aviation SLA is published.</strong> Starlink's aviation page markets the top tier — Aviation Global Unlimited — as <em>"Backed by a Service Level Agreement (SLA)"</em>, with an asterisk resolving to "Terms and conditions apply" and a link to nothing. The two cheaper aviation tiers carry no such claim. Meanwhile the only SLA document Starlink publishes anywhere is the <strong>Priority Plan SLA</strong>, and its own <em>General Aviation Terms of Service</em> say plainly: <strong>"The General Aviation Plans are not eligible for the Priority Plan Service Level Agreement."</strong> Aviation does not appear in the Service Plan Descriptions that define that SLA's scope either. Whatever terms exist for a fleet customer are in a negotiated contract, not in public.</p><p><strong>And the published SLA, if it were the template, would not measure the thing Emirates cares about.</strong> It commits to 99.9% <em>network availability</em>, measured as whether the terminal can reach a Starlink point of presence, checked once a second, counted only after 60 continuous seconds of failure. The remedy is a credit of <strong>20% of one month's line fee</strong>, it is the <em>"sole and exclusive remedy"</em>, Starlink determines violations <em>"in its sole discretion"</em>, and an undetected outage must be disputed within 14 days with UTC timestamps the airline has no way of producing. There is <strong>no committed throughput and no committed latency at any aviation tier</strong> — only "up to" and "as low as" figures that Starlink states are "not guaranteed".</p><p>Read that as an engineer and the gap is obvious. <strong>Terminal-to-PoP availability says nothing about the cabin.</strong> A sector in which every passenger had an unusable experience — congested beam, saturated uplink, failing access points — is a fully compliant sector under that metric. So the three questions worth putting to the supplier in writing are not <em>"is there an SLA?"</em> but:</p><ul><li><strong>What are the aviation SLA terms, in a document?</strong> Metric, measurement point, method, exclusions, credit formula, claim window.</li><li><strong>How is it calculated, and by whom?</strong> If the supplier both measures and adjudicates, the airline is a spectator to its own service quality.</li><li><strong>What independent data will be accepted in a dispute?</strong> This is the question that makes section 11 a commercial instrument rather than an engineering nicety.</li></ul><p><strong>Emirates cannot answer the third question today, because it has no independent data.</strong> That is the real gap, and it is the one the airline can close by itself, without asking anyone's permission:</p>
+      <ol>
+        <li><strong>Measure first, unilaterally.</strong> Build the dataset before asking for anything. Six months of per-sector, per-phase performance across a sub-fleet is an asset no airline in this market currently holds.</li>
+        <li><strong>Define the metric from the data</strong> — not "up to 1 Gbps" but delivered uplink and downlink per aircraft per phase, availability by region, and time-to-first-byte from the seat.</li>
+        <li><strong>Negotiate against evidence.</strong> A supplier conversation that begins with twelve months of measured data is a different conversation from one that begins with a complaint.</li>
+        <li><strong>Reconcile and enforce.</strong> Where the supplier reports performance, reconcile it against Emirates' own measurements from Emirates' own instruments. Where credits or rebates are contracted, calculate them from the airline's data and present them — and where the contracted metric is terminal-to-PoP availability, <strong>propose a cabin-side metric to sit alongside it</strong>, which is a conversation no airline can open without first having the data. <strong>An SLA the airline cannot independently verify is a marketing document, however genuine the intention behind it.</strong></li>
+      </ol>
+      <p>This is the standard position of any serious enterprise buyer of network services, and it is entirely normal. It is simply not yet the position of any airline buying satellite connectivity.</p>
+    </div>
+  </div>
+
+  <div class="callout ok">
+    <span class="l">The cheapest recommendation in this paper</span>
+    <p>Instrumentation costs a fraction of any other item here. It is reversible, needs no supplier consent, produces value from the first flight, and is the precondition for the capacity case, the coverage case, the caching business case, the cabin Wi-Fi case and the commercial negotiation. <strong>If only one thing in this paper is done, it should be this one</strong> — and it should start on a sub-fleet next quarter rather than waiting for the architecture around it.</p>
+  </div>
+
+  <div class="vend">
+    <div class="vt">Measurement and assurance — categories with exemplars</div>
+    <div class="vrow" data-vendors="Cisco ThousandEyes|network assurance;Catchpoint|synthetic monitoring;Kentik|flow analytics;HPE Aruba Networking|WLAN sensors;Ekahau|RF survey"></div>
+  </div>
+</section>
+
+<div class="part" id="p4">
+  <div class="pn">Part IV</div>
+  <h2>The product</h2>
+  <p>Everything so far is engineering. This part is what the engineering is for — and where a connectivity programme stops being a cost line and starts being a revenue one.</p>
+</div>
+
+<section id="s12">
+  <div class="sh">
+    <span class="t">12</span>
+    <h3>The hyperconnected passenger</h3>
+    <p>Four services at one seat, at the same time, without the passenger configuring anything.</p>
+  </div>
+
+  <figure>
+    <img class="ph" id="img2" src="img/fig9-cabin.jpg" alt="An economy seat with four screens in use at once: the seatback ice system, a laptop streaming, a phone messaging on the armrest and a smartwatch on the wrist">
+    <figcaption><b>Figure 10.</b> The proposition in one frame — and, incidentally, the capacity model in one frame. Four screens at one seat: <em>ice</em> on the seatback, a streaming session on the laptop, messaging on the phone, a watch quietly syncing. Three of the four are on the satellite link; the fourth, the largest and most bandwidth-hungry of them, is not. <strong>This is the 1.8 devices per passenger of section 3, photographed.</strong></figcaption>
+      <p class="figcred">Emirates media material</p>
+  </figure>
+
+  <div class="cols" style="margin-top:34px">
+    <div class="body">
+      <h4>Four things at once</h4>
+      <p><strong>1 — Bring-your-own-device Wi-Fi</strong>, which exists today and which the rest of this paper is about making consistently good.</p>
+      <p><strong>2 — Reachability on the passenger's own number.</strong> Emirates was the first airline in the world to offer onboard mobile service, in March 2008, and the capability is still fitted to much of the fleet. It has been quietly overtaken by messaging apps over Wi-Fi — but the underlying proposition, <em>your phone works, on your number, without you doing anything</em>, is stronger than any app. Modern Wi-Fi calling makes it deliverable again without the passenger touching a setting.</p>
+      <p><strong>3 — A destination mobile connectivity product</strong>, sold before or during the flight and working the moment the aircraft door opens — and, done properly, working before it opens. This is section 13.</p>
+      <p><strong>4 — <em>ice</em>, running alongside rather than against.</strong> The seatback system holds its content on the aircraft, so it consumes effectively no satellite capacity at all — the exceptions being the live television feeds and the live flight-schedule and moving-map updates, which are small and predictable. Every hour a passenger spends watching <em>ice</em> is an hour of satellite capacity released to everyone else. That is worth stating internally as a network fact and not only as an entertainment one: <strong>the strongest capacity mitigation Emirates owns is the seatback system it already has.</strong></p>
+    </div>
+    <div class="body">
+      <h4>Why the combination matters more than any part</h4>
+      <p>Individually, each of these is available somewhere. Together, and configured so the passenger does nothing, they describe a cabin no competitor currently offers — and they are mutually reinforcing.</p>
+      <ul>
+        <li><strong>The seatback screen is a second screen for the network</strong>, not just a video player: a place to sell, to explain, to show the aircraft's own connectivity status, and to offer destination services at the moment they are relevant.</li>
+        <li><strong>The app is the fourth screen</strong>, carrying the measurement described in section 11 and the purchase flow described in section 13.</li>
+      </ul>
+
+      <h4>What it needs from the architecture</h4>
+      <p>All four depend on the same three things Part III specifies: a router that can classify and prioritise, a cabin estate that can carry the load, and telemetry that proves it works. <strong>None of this is a separate programme. It is the product that the programme in Part III makes possible.</strong></p>
+    </div>
+  </div>
+
+  <div class="vend">
+    <div class="vt">Onboard cellular — categories with exemplars</div>
+    <div class="vrow" data-vendors="AeroMobile|onboard cellular;SITA|onboard cellular"></div>
+  </div>
+</section>
+
+<section id="s13">
+  <div class="sh">
+    <span class="t">13</span>
+    <h3>Connectivity as a product — the case for an Emirates eSIM</h3>
+    <p>The one commercial idea in this paper that could pay for the rest of it — and the part of it that only an airline hiring for in-flight connectivity can actually build.</p>
+  </div>
+
+  <div class="figpair" style="align-items:start">
+    <figure style="margin:0">
+      <img class="ph" id="img3" src="img/fig10-esim.jpg" alt="A hand raising a phone to scan a QR code displayed on an Emirates seatback screen headed Buy Emirates eSIM">
+      <figcaption><b>Figure 11.</b> The two-device handshake that starts the purchase: the offer appears on the screen the passenger is already looking at, and completes on the device the connectivity is for. <strong>Everything visible here is buildable on today's fleet</strong> — a seatback page, a QR code, and a provisioning endpoint the captive portal is told to allow.</figcaption>
+      <p class="figcred">Composite of Emirates cabin material; the eSIM screen is a proposal, not a shipping product</p>
+    </figure>
+    <div class="body">
+      <h4>The moment nobody else can reach</h4>
+      <p>Here is the commercial observation this section turns on.</p>
+      <p>A passenger's intent to buy destination connectivity peaks in a narrow, predictable window: <strong>the last two hours before landing.</strong> They are about to need data. They have not yet bought any. They are thinking about arrival — the transfer, the hotel, the meeting, the family waiting at the barrier. The problem is concrete, imminent and about to be theirs.</p>
+      <p>In that window the passenger is reachable by exactly one commercial party, and it is not the obvious one. <strong>Not their home operator</strong>, who will simply apply a roaming charge the passenger did not choose and often does not discover until the bill. <strong>Not an app-store travel eSIM brand</strong>, who has no idea this person is airborne, where they are going, or when they land — and who in any case cannot reach a device that is not yet on a network. <strong>Not the destination operator</strong>, who meets them at a kiosk in the arrivals hall, twenty minutes and one queue too late.</p>
+      <p><strong>Emirates knows the destination, the arrival time, the length of stay, the passenger, the cabin and the device — and owns both screens in front of them.</strong> No other party in this transaction holds more than two of those. That combination exists for roughly two hours per passenger per sector, on the order of a hundred million times a year, and it is currently used for nothing.</p>
+      <p>It is also the rare seatback commerce proposition that survives contact with reality. Seatback systems have tried to sell duty-free, hotel nights and taxi transfers for two decades and largely failed, because none of those things is wanted <em>at that moment</em> by <em>that</em> person. <strong>Connectivity for the country the aircraft is descending into is the exception</strong>: the need is universal, the timing is exact, and the alternative — landing with no data — is a small, familiar misery that every frequent traveller recognises instantly.</p>
+      <p>And the offer can be right rather than generic, because the itinerary is Emirates' own data. A passenger landing in Bangkok for nine days should not see what a passenger connecting through to Manchester for a two-hour transit sees. <strong>Plan length, price, operator, currency — and whether to make an offer at all — can all follow the ticket.</strong> That is a targeting quality no travel eSIM brand can buy at any price.</p>
+    </div>
+  </div>
+
+  <figure style="margin-top:30px">
+    <div class="diag" id="diagEsim"></div>
+    <figcaption><b>Figure 12 — the flow, and where it genuinely works.</b> Steps 1 to 5 are achievable today over the cabin network with no new standards. Step 6 — the profile attaching to the onboard cellular system in flight rather than waiting for landing — is the step with a real engineering precondition, set out below.</figcaption>
+  </figure>
+
+  <div class="cols" style="margin-top:34px">
+    <div class="body">
+      <h4>Two points of sale</h4>
+      <p><strong>At booking.</strong> Offered in the booking flow and in the app alongside seat selection and baggage — a destination data plan, priced in the ticket currency, added to the same transaction. The airline already knows where the passenger is going and for how long, so the offer can be exactly right rather than generic. This is the higher-conversion moment and the easier one to build.</p>
+      <p><strong>On board.</strong> Offered on the <em>ice</em> screen and in the connectivity portal during the last phase of flight. Scan the code shown on the seatback screen, choose a plan, pay with a stored card or a Skywards balance, and the profile installs. <strong>This is the moment with the highest intent and the lowest competition.</strong></p>
+
+      <h4>Why this belongs on the connectivity menu, not in a shop</h4>
+      <p>One framing point, and it matters for how the idea is received internally. <strong>This is not ancillary retail bolted onto the IFE system. It is part of the onboard connectivity product itself</strong> — the same menu as the cabin Wi-Fi, presented as what it is: the aircraft handing the passenger's connectivity over to the ground, cleanly, before the wheels touch.</p>
+      <p>That framing is available to Emirates specifically because the attach can happen <em>in the air</em>. A profile that merely downloads on board and wakes up on landing is a shop transaction that happened to occur at altitude. A profile that <strong>registers on the onboard picocell mid-flight, is validated, and is demonstrably working before the aircraft is on the ground</strong> is a connectivity feature — and it is one no competitor is currently in a position to offer.</p>    </div>
+    <div class="body">
+      <h4>The technical reality, stated precisely</h4>
+      <p><strong>Downloading and installing the profile in flight is straightforward.</strong> eSIM provisioning under the GSMA architecture is an IP transaction between the handset and a provisioning server. Profiles are small — kilobytes, not megabytes — and both major mobile platforms support installation over Wi-Fi. The requirements are that the <strong>captive portal permits the provisioning endpoints</strong> before or without a full internet session, and that the flow tolerates high latency. Neither is difficult; both must be designed in deliberately.</p>
+      <p><strong>Attaching that profile to a network in flight is the hard part.</strong> A downloaded profile is inert until it registers somewhere. The aircraft's onboard cellular system is a picocell with a network control unit, and it admits only subscribers whose operators have a roaming relationship with the onboard operator. A freshly-installed destination profile <em>from an unrelated operator</em> will therefore not attach in flight — <strong>it will sit dormant and activate on landing.</strong> That is still a good product. It is not the product described in the pitch.</p>
+      <p><strong>The version that does work in flight requires Emirates to be the operator.</strong> If the profile is an Emirates-branded MVNO profile, and the onboard picocell is configured to admit Emirates' own subscriber identities, then the profile can register in the cabin, be validated before landing, and be demonstrably working while the passenger is still in their seat. <strong>That is the architecture worth building</strong> — and the reason the MVNO question and the eSIM question are the same question.</p>
+    </div>
+  </div>
+
+  <figure style="margin-top:30px">
+    <div class="figpair" style="align-items:start">
+      <img class="ph" src="img/fig-bangkok.jpg" alt="A phone held in a cabin showing the iOS status bar reading Emirates and the Weather app open on Bangkok, 33 degrees, thunderstorms">
+      <div class="body" style="padding-top:2px">
+        <p class="dt" style="font-family:var(--fm);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--em);margin:0 0 10px">Figure 13 — the proof, thirty minutes out</p>
+        <p>The handset has registered on the onboard picocell under an <strong>Emirates</strong> identity and is already pulling live data for the destination. The passenger can see that it worked <em>before they stand up</em>.</p>
+        <p><strong>No airline can produce this screen without being the operator.</strong> A profile from an unrelated carrier would still be dormant here and would only come alive on the airbridge — which is a perfectly good product, and a completely different one. That gap is the entire distance between step 5 and step 6 of the flow above.</p>
+        <p class="cap2" style="margin-top:0">Illustration of the proposed end state. Carrier name shown as it would appear under an Emirates MVNO profile.</p>
+      </div>
+    </div>
+  </figure>
+
+  <div class="callout dn">
+    <span class="l">What an Emirates MVNO would actually take</span>
+    <p><strong>First, a correction to the obvious assumption.</strong> It is tempting to conclude that the only two possible partners are e&amp; and du, because they are the UAE's licensed operators. That is true only for service provided <em>in</em> the UAE. But almost everything this product sells is consumed <strong>abroad</strong> — a data plan for Bangkok, used in Bangkok — where the TDRA's licensing regime does not reach and a UAE host operator confers no particular advantage. <strong>For the overseas product, the more natural route is a white-label platform from one of the established travel-eSIM providers</strong>, who already hold the wholesale roaming footprint, the provisioning stack and the destination agreements, and who sell exactly this capability to brands. That is faster, cheaper and carries none of the licensing overhead.</p><p><strong>A UAE host is needed for one thing only</strong> — the part of the proposition that lives on the aircraft and in the UAE: an Emirates identity that the onboard picocell will admit, and any domestic service. That is a narrower and much more tractable conversation than "become a mobile operator", and it is worth separating the two in any internal business case. <strong>An enabler.</strong> Subscriber management, provisioning and billing is a solved commodity bought from an MVNE, not built. <strong>And an onboard configuration change</strong> so the cabin picocell admits Emirates identities.</p>
+    <p>None of this is exotic; all of it is a programme. The realistic staging is: <strong>resell or white-label a partner's eSIM first</strong> to prove the demand and the conversion at both points of sale, and <strong>take the operator position second and only where it is needed</strong> — for the in-flight attach — once there is a measured revenue line to justify it. Reselling makes a few dollars per activation. Owning the subscriber makes the margin, the data, and the ability to make it work in flight.</p>
+  </div>
+
+  <div class="cols" style="margin-top:8px">
+    <div class="body">
+      <h4>What it is worth</h4>
+      <p>The arithmetic is simple enough to do in the room. Emirates carries <strong>53.2 million passengers a year</strong> across roughly 180,000 flights, into 152 cities in 80 countries — essentially all of them crossing a border. If a low single-digit percentage buy a destination data plan at a typical travel-eSIM price, the gross line is tens of millions of dollars annually. As a reseller the airline keeps a share of that; as the operator it keeps most of it.</p>
+      <p>Those are illustrative figures and belong in a business case rather than in a strategy paper. <strong>The point is not the number — it is that the number is large enough to fund the entire programme in Part III</strong>, which turns this document from a request for investment into a proposal that pays for itself.</p>
+    </div>
+    <div class="body">
+      <h4>And the risks, honestly</h4>
+      <ul>
+        <li><strong>Regulatory.</strong> Selling connectivity services into other countries' markets is a licensed activity; the roaming construct handles it, but it must be got right jurisdiction by jurisdiction.</li>
+        <li><strong>Brand.</strong> A connectivity product that fails on arrival damages the airline, not the MVNE. The support burden lands on Emirates.</li>
+        <li><strong>Channel conflict.</strong> Home operators will not enjoy an airline intermediating their roaming revenue. That is survivable, and is the same fight every travel eSIM brand has already had.</li>
+        <li><strong>Cannibalisation of nothing.</strong> Worth noting that this competes with no existing Emirates revenue line, which makes it unusually easy to trial.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="vend">
+    <div class="vt">eSIM, MVNE and travel connectivity — categories with exemplars</div>
+    <div class="vrow" data-vendors="Airalo|travel eSIM;Ubigi / Transatel|travel eSIM &amp; MVNE;Nomad|travel eSIM;Flexiroam|travel eSIM;Thales|eSIM platform;IDEMIA|eSIM platform;Giesecke+Devrient|eSIM platform;Telna|MVNE;BICS|wholesale roaming"></div>
+  </div>
+</section>
+
+<div class="part" id="p5">
+  <div class="pn">Part V</div>
+  <h2>The long game</h2>
+  <p>Everything to this point can be done inside the existing supplier relationship. This part is about the decision that cannot, and about buying the right to make it later without paying for it now.</p>
+</div>
+
+<section id="s14">
+  <div class="sh">
+    <span class="t">14</span>
+    <h3>The second bearer</h3>
+    <p>Who else can carry a widebody between now and 2032, what a second path actually buys, and the architectures for carrying two.</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div style="font-family:var(--fm);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Satellites in orbit</div>
+      <div style="font-weight:600;font-size:17px;margin-bottom:3px">Today, and on published plans for 2030</div>
+      <p style="color:var(--muted);font-size:13px;margin:0 0 18px;max-width:74ch">The gap narrows but does not close. What matters is not whether anyone catches Starlink — nobody does — but whether anyone crosses the threshold of <em>enough satellites, a certified aero terminal, and a licence where Starlink has none</em>.</p>
+      <div id="bars"></div>
+      <div class="legend" style="margin-top:14px">
+        <span class="lg"><span class="sw" style="background:var(--em)"></span> In orbit today</span>
+        <span class="lg"><span class="sw" style="background:color-mix(in srgb,var(--dn) 55%,transparent)"></span> Planned / projected by 2030</span>
+      </div>
+    </div>
+    <figcaption><b>Figure 14.</b> 2030 figures are of three kinds and are not equivalent: a regulatory deadline (Amazon Leo, 3,232 by July 2029), an operator statement (Eutelsat, about 1,300), and an estimate from current launch rate against stated plans (the Chinese constellations, running roughly a third behind their own 2026 targets).</figcaption>
+  </figure>
+
+  <figure style="margin-top:30px">
+    <div class="tw">
+      <table class="w1">
+        <thead><tr>
+          <th style="min-width:160px">Constellation</th>
+          <th style="min-width:104px">Orbit</th>
+          <th class="n" style="min-width:104px">In orbit<br>now</th>
+          <th class="n" style="min-width:112px">Planned</th>
+          <th style="min-width:250px">Aviation position today</th>
+          <th style="min-width:190px">Second bearer for Emirates?</th>
+        </tr></thead>
+        <tbody id="conrows"></tbody>
+      </table>
+    </div>
+    <figcaption><b>Figure 15.</b> Counts are the most recent verified figures and their dates differ — Starlink 10 September 2026, Amazon Leo 2 July 2026, the Chinese constellations 16 August 2026. Starlink is quoted as <em>working</em> satellites on the stricter of the two counting conventions in use; the looser convention gives about 11,100.</figcaption>
+  </figure>
+
+  <div class="cols" style="margin-top:36px">
+    <div class="body">
+      <h4>What a second bearer buys — four things, four economics</h4>
+      <p><strong>1 — Coverage complement.</strong> The only benefit that strictly requires a <em>different operator</em>. A bearer licensed where Starlink is not converts the 65 exposed destinations of section 4 into served ones. Every candidate closes only part of the gap.</p>
+      <p><strong>2 — Capacity, specifically uplink.</strong> Two bearers bonded at the router add their uplinks. Given that uplink binds on every aircraft in the fleet at a busy-sector default, this is the benefit with the clearest line to passenger experience — and it is available from <em>any</em> second bearer, including a GEO one.</p>
+      <p><strong>3 — Commercial leverage.</strong> The cheapest of the four and the most reliably realised. A credible, costed, technically qualified alternative changes a sole-source negotiation whether or not it is ever installed. <strong>The work required is the qualification, not the installation.</strong></p>
+      <p><strong>4 — Operational separation.</strong> A second path for aircraft operational traffic, crew applications and the private interconnect of section 10, so a commercial outage or a licensing action does not take operations with it.</p>
+      <p>Only the first requires a different operator. The third is what pays for the option while the others mature.</p>
+
+      <h4>The China question</h4>
+      <p>Five destinations plus Hong Kong and Taiwan sit behind a rule no Western operator can license its way past. It is also the one gap with a named, funded, already-contracted answer: <strong>Qianfan</strong> is an Airbus HBCplus managed service provider as of December 2025 and signed with a major IFE integrator in February 2026. That integrator's published architecture is the tell — <strong>two separate LEO antennas on one fuselage</strong>, bonding a Western constellation with a Chinese one, because the two networks are <em>politically</em> disjoint rather than technically complementary. That is Emirates' problem, arrived at from the other direction.</p>
+    </div>
+    <div class="body">
+      <h4>Three ways to carry two bearers</h4>
+      <p><strong>A — A second aperture.</strong> An independent antenna and modem on the crown, bonded in the router. Highest cost: two radomes, two ARINC positions, incremental drag on every hour of every sector, two certification programmes, two contracts. <em>Right when the two networks are politically disjoint and no single operator can hold both licences</em> — the China and India case exactly.</p>
+      <p><strong>B — A multi-orbit aperture.</strong> A single antenna working across GEO, MEO and LEO. One radome, one install, one drag penalty — but the airline is tied to that vendor's roadmap of supported networks. <em>The default for most of the fleet when the requirement is capacity, resilience and leverage rather than a specific licensing gap.</em></p>
+      <p><strong>C — A thin fallback.</strong> A modest always-available GEO or MEO path sized for operational traffic, crew applications and messaging — not passenger streaming. Lowest cost, and on part of the fleet the equipment may still be fitted. <em>The cheapest way to stop a commercial outage becoming an operational one.</em></p>
+
+      <h4>The lever Emirates already holds</h4>
+      <p>The A350 fleet — 19 delivered of 73 ordered — is eligible for <strong>Airbus HBCplus</strong>, where the terminal is line-fit and provisioned by the airframer and the managed service provider is <em>changeable</em>. On those aircraft, changing bearer is a commercial action rather than a hangar visit.</p>
+      <p>That is a materially different position from the retrofit fleet and worth being deliberate about. <strong>Every A350 delivered without that optionality exercised is an aircraft that has to be touched later.</strong></p>
+    </div>
+  </div>
+
+  <div class="callout dn">
+    <span class="l">The design principle</span>
+    <p>A second bearer is added as <strong>a second path behind the Emirates router</strong>, not as a second network in the cabin. One SSID, one portal, one policy engine — and underneath it, two transports selected per flow. Passengers never see the bearer; operations see both. That is only possible if the router of section 7 is bearer-agnostic from the start, which is available today at no incremental cost and unavailable later at considerable cost.</p>
+  </div>
+
+  <div class="vend">
+    <div class="vt">Constellations and multi-orbit apertures</div>
+    <div class="vrow" data-vendors="SpaceX / Starlink|LEO;Eutelsat OneWeb|LEO;SES|MEO + GEO;Viasat|GEO + LEO;Amazon Leo|LEO;Telesat|LEO;SpaceSail / Qianfan|LEO;ThinKom|multi-orbit aperture;Intellian|LEO aperture;Gogo|aperture &amp; service;Hughes|multi-orbit;Airbus HBCplus|line-fit programme"></div>
+  </div>
+</section>
+
+<section id="s15">
+  <div class="sh">
+    <span class="t">15</span>
+    <h3>Decision gates</h3>
+    <p>A strategy that says "add a second bearer eventually" is not a strategy. These are the trigger conditions, written down in advance so the decision is made on evidence rather than on the mood of the quarter.</p>
+  </div>
+
+  <div class="gates">
+    <div class="gate">
+      <div class="hz">Horizon 1 · now – 2027</div>
+      <h5>Buy the option, not the hardware</h5>
+      <p>Cost: effectively nil. Contract language, specification and provisioning the airline is doing anyway.</p>
+      <p>Qualify one alternative bearer to the point of a costed, certified, deployable proposal — and then do not deploy it. <strong>The qualification is the asset.</strong></p>
+      <div class="trig"><b>Open this now</b>
+        <ul><li>Unconditional. None of it depends on anything happening.</li></ul>
+      </div>
+    </div>
+    <div class="gate h2">
+      <div class="hz">Horizon 2 · 2027 – 2029</div>
+      <h5>Fly a second bearer on a sub-fleet</h5>
+      <p>Ten to fifteen aircraft on the routes with the worst authorisation exposure — the subcontinent, South East Asia, the China points. Measure everything.</p>
+      <p>Candidates in order of readiness: <strong>Eutelsat OneWeb</strong> (flying on 800+ aircraft today, genuinely polar, multiple certified terminals), <strong>SES</strong> (MEO plus GEO, ~3,000 aircraft, and uniquely holds contracted partner capacity for China and India), <strong>Viasat</strong> (GEO today with the only commercial polar Ka payloads in service, LEO from 2028).</p>
+      <div class="trig"><b>Any one of these opens it</b>
+        <ul>
+          <li>A licensing action removes service in two or more markets within twelve months.</li>
+          <li>Measured uplink exceeds capacity on more than a fifth of sectors.</li>
+          <li>Renewal pricing rises faster than delivered capacity per aircraft.</li>
+          <li>A candidate bearer closes more than half the authorisation gap.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="gate h3">
+      <div class="hz">Horizon 3 · 2029 – 2032</div>
+      <h5>Decide for the fleet</h5>
+      <p>By then Amazon Leo either has a constellation or has missed a deadline it cannot miss twice; Telesat is either in service through Viasat or is not; Qianfan either has a working aviation product or does not; Starlink V3 either supports aviation or does not; and the 777-9s are arriving in volume with whatever architecture Horizon 1 chose.</p>
+      <p>The decision at this gate is not <em>whether</em>. It is <strong>which one, on how much of the fleet, in which aperture</strong>.</p>
+      <div class="trig"><b>Decide against the Horizon 2 evidence</b>
+        <ul>
+          <li>Measured value of the second path per aircraft-hour.</li>
+          <li>Fuel and maintenance cost of the aperture, measured not modelled.</li>
+          <li>Residual authorisation gap after three more years of licensing.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="part" id="p6">
+  <div class="pn">Part VI</div>
+  <h2>Execution</h2>
+  <p>What any of this actually costs in engineering time, certification effort and aircraft downtime — and the order in which it should happen.</p>
+</div>
+
+<section id="s16">
+  <div class="sh">
+    <span class="t">16</span>
+    <h3>What it takes</h3>
+    <p>An honest split between what is a software change, what is a hangar visit, and what is a structural modification.</p>
+  </div>
+
+  <figure>
+    <div class="tw">
+      <table class="w1">
+        <thead><tr>
+          <th style="min-width:230px">Intervention</th>
+          <th style="min-width:150px">Classification</th>
+          <th style="min-width:210px">Certification path</th>
+          <th style="min-width:160px">Aircraft downtime</th>
+          <th style="min-width:180px">Reversible?</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><b>Contract terms and instrumentation on the ground side</b></td><td><span class="pill p-ok">Commercial</span></td><td>None</td><td class="n">None</td><td>Entirely</td></tr>
+          <tr><td><b>App-side measurement component</b></td><td><span class="pill p-ok">Software</span></td><td>App release process</td><td class="n">None</td><td>Entirely</td></tr>
+          <tr><td><b>BLE / Zigbee services on existing cabin APs</b></td><td><span class="pill p-warn">Software + tags</span></td><td>Configuration; tags are loose equipment</td><td class="n">None</td><td>Entirely</td></tr>
+          <tr><td><b>Policy, Shaping and DNS</b><div style="color:var(--muted);font-size:12px">the Emirates cabin router behind port 2, and everything it then runs. One initiative, not two: the box and its configuration are bought, certified and operated together.</div></td><td><span class="pill p-warn">Hardware, minor<div style="font-weight:400;text-transform:none;letter-spacing:0;font-family:var(--fd);font-size:11.5px;color:var(--muted);margin-top:4px">then software, indefinitely</div></span></td><td>STC amendment · DO-160G · DO-326A, once. Everything after that is software configuration control.</td><td class="n">Hours, per aircraft<div class="fn" style="font-weight:400">once</div></td><td>Yes — remove and revert</td></tr>
+          <tr><td><b>WLAN sensors</b></td><td><span class="pill p-warn">Hardware, minor</span></td><td>STC amendment · DO-160G</td><td class="n">Hours, per aircraft</td><td>Yes</td></tr>
+          <tr><td><b>Cabin Wi-Fi 6E / 7 access point replacement</b></td><td><span class="pill p-ser">Hardware, moderate</span></td><td>STC amendment · DO-160G · RF re-survey</td><td class="n">1–2 days, per aircraft</td><td>Partially</td></tr>
+          <tr><td><b>Onboard content cache</b></td><td><span class="pill p-ser">Hardware + commercial</span></td><td>STC amendment · content agreements</td><td class="n">1–2 days, per aircraft</td><td>Partially</td></tr>
+          <tr><td><b>Second aperture — new bearer</b></td><td><span class="pill p-crit">Structural</span></td><td>Full STC · ICA · AFMS · drag and weight assessment</td><td class="n">Days to weeks</td><td>No, practically</td></tr>
+          <tr><td><b>New terminals for a future satellite generation</b></td><td><span class="pill p-crit">Structural, fleet-wide</span></td><td>Full STC per type · second retrofit programme</td><td class="n">Days, × 264 → 623 aircraft</td><td>No</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figcaption><b>Figure 16 — the honest cost ladder.</b> The order of this table is the order of the programme. Everything in the top half can start now; everything in the bottom half should wait for the evidence the top half produces.</figcaption>
+  </figure>
+
+  <div class="cols" style="margin-top:34px">
+    <div class="body">
+      <h4>Domain separation is not optional</h4>
+      <p>Aircraft networks are divided into domains — control, information services, and passenger entertainment — and the separation between them is a certification requirement, not a design preference. Any equipment Emirates inserts must respect those boundaries, and any proposal that carries operational or crew traffic alongside passenger traffic must demonstrate separation to the satisfaction of the authority, not merely assert it.</p>
+      <p>This is a strong argument <em>for</em> the airline-owned router rather than against it: a box Emirates specifies and controls can be built to that requirement from the start. A box supplied as part of a consumer-derived connectivity kit was not designed to it.</p>
+      <p>It is also a reason the security case matters as much as the environmental one. Anything in the path needs a DO-326A airworthiness security process, and that work should be scoped at the beginning rather than discovered at the certification review.</p>
+    </div>
+    <div class="body">
+      <h4>What "another retrofit" really means</h4>
+      <p>The paper has referred twice to a possible second fleet-wide terminal retrofit — if a future satellite generation requires new hardware to access it. It is worth being concrete about the scale, because it is the single largest potential cost in this document.</p>
+      <p>The current programme is fitting a fleet of roughly 264 aircraft. A second programme would run against a fleet heading toward <strong>623</strong>. At a realistic several days per aircraft for a crown modification, plus certification per type, that is a multi-year industrial programme competing for the same hangar slots as cabin refurbishment and heavy maintenance.</p>
+      <p><strong>Which is the argument for provisioning now.</strong> Wiring, structural provision and ARINC radome positions preserved at build on the 777-9s, A350s and 787s cost a fraction of retrofitting them later — and they are ordered years before they are needed.</p>
+    </div>
+  </div>
+</section>
+
+<section id="s17">
+  <div class="sh">
+    <span class="t">17</span>
+    <h3>The roadmap</h3>
+    <p>Three horizons, on one page, with the dependency that connects them: each phase produces the evidence that justifies the next.</p>
+  </div>
+
+  <figure>
+    <div class="diag" id="diagRoad"></div>
+    <figcaption><b>Figure 17 — sequencing.</b> The first phase is almost entirely contracts, specification and measurement — reversible, inexpensive, and a precondition for everything expensive that might follow. No hardware commitment is made before there is measured evidence to justify it.</figcaption>
+  </figure>
+
+  <div class="cols" style="margin-top:34px">
+    <div class="body">
+      <h4>First 90 days — decide nothing, measure everything</h4>
+      <ul>
+        <li><strong>Instrument a sub-fleet.</strong> Ten to fifteen aircraft across two types, with bearer-side agents and cabin sensors. Target the routes with the worst authorisation exposure.</li>
+        <li><strong>Specify the router.</strong> Two WAN ports, open policy API, exportable telemetry, domain separation, fail-open. Specification only — no procurement yet.</li>
+        <li><strong>Fix the contract.</strong> No exclusivity, coverage-change notice, a capacity ratchet measured against Emirates' own data, service credits, data portability.</li>
+        <li><strong>Preserve provisioning</strong> on every new delivery, and settle the HBCplus position on the A350 line-fit deliberately rather than by default.</li>
+        <li><strong>Open the eSIM conversation with potential partners</strong> for a reseller trial at the booking flow — the lowest-cost test of the section 13 thesis.</li>
+      </ul>
+    </div>
+    <div class="body">
+      <h4>Months 4–12 — build the layer</h4>
+      <ul>
+        <li><b>Policy, Shaping and DNS</b> live on the sub-fleet; measure the recovery against the pre-instrumented baseline.</li>
+        <li>Cabin Wi-Fi 6E trial on two aircraft, with sensors, to answer the satellite-versus-cabin question definitively.</li>
+        <li>BLE/Zigbee crew and asset services in trial with the cabin team.</li>
+        <li>eSIM at booking live; measure conversion; decide on the onboard point of sale and on the MVNO question with real numbers.</li>
+        <li>First quarterly performance reconciliation against the supplier, using Emirates' own data.</li>
+      </ul>
+      <h4>Years 2–3 — scale what worked</h4>
+      <ul>
+        <li>Fleet rollout of whatever the sub-fleet proved, and only that.</li>
+        <li>Caching decision, gated on measured cacheable fraction and a signed content agreement.</li>
+        <li>Second-bearer decision at the Horizon 2 gate, on the trigger conditions in section 15.</li>
+        <li>MVNO decision on a measured revenue line rather than a projected one.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="part" id="p7">
+  <div class="pn">Part VII</div>
+  <h2>Intellectual honesty</h2>
+  <p>A strategy document that cannot argue against itself, and cannot say what it does not know, is a sales document. This part is not an appendix — it is the part that should be read most carefully.</p>
+</div>
+
+<div class="callout" style="margin-top:30px">
+  <span class="l">A note on what this document is</span>
+  <p>I should be plain about the basis of this paper, because it changes how it ought to be read.</p>
+  <p><strong>It is built almost entirely on public information</strong> — published regulatory texts, operator and supplier material, the Emirates Group Annual Report, the published timetable, satellite catalogues and peering records — <strong>interpreted through my own professional experience in satellite and telecommunications.</strong> I have no access to Emirates' contracts, its measured performance data, its fitment schedule, its supplier pricing or its internal plans. Where I have had to estimate, I have said so and shown the working.</p>
+  <p><strong>Nothing here is carved in stone.</strong> Every assumption in this document is open to correction, and several of them will be wrong — the people inside Emirates hold data that would settle a dozen of the open questions in section 19 in an afternoon. I would expect a serious internal review to move some of these conclusions materially, and that would be the document working as intended rather than failing.</p>
+  <p>Its real purpose is narrower and more personal than its subject suggests. <strong>It is an attempt to show how I think</strong> — how I frame a problem, build a model, hunt for the evidence that would falsify it, separate what is known from what is assumed, and turn all of that into a sequence of decisions someone could actually fund. If it is useful to Emirates as analysis, so much the better. Its first job is to give Emirates a clearer view of what I would be like to work with.</p>
+</div>
+
+<section id="s18">
+  <div class="sh">
+    <span class="t">18</span>
+    <h3>The counter-case</h3>
+    <p>The strongest arguments against this paper, stated properly rather than set up to be knocked down.</p>
+  </div>
+
+  <div class="cols">
+    <div class="body">
+      <ul>
+        <li><strong>The bearer may simply outrun the problem.</strong> Starlink adds capacity continuously, and V3 raises uplink per satellite twenty-two fold. If that capacity reaches aviation terminals on a normal upgrade path, the capacity constraint in section 3 may substantially resolve itself without Emirates building anything.</li>
+        <li><strong>The authorisation gap is closing, not widening.</strong> The list has grown steadily. India, Saudi Arabia and Egypt could all be resolved within the horizon of this paper, which would remove most of the coverage argument and with it most of the second-bearer case.</li>
+        <li><strong>Every box in the path is a box that can fail.</strong> Today the connectivity chain is short and supplied by one party. Inserting an airline-owned router, sensors and a cache adds failure points, a support burden and a night-shift escalation path that does not currently exist. Badly implemented, it is worse than what it replaced.</li>
+        <li><strong>The cabin Wi-Fi may not be the constraint at all.</strong> The paper argues nobody has measured it — which cuts both ways. If measurement shows the cabin radio is fine and the satellite link is the whole story, section 8 is a substantial spend for nothing.</li>
+      </ul>
+    </div>
+    <div class="body">
+      <ul>
+        <li><strong>Traffic management carries a reputational risk.</strong> "Airline throttles passengers' internet" is a headline that writes itself, and "only the top 5%, only under congestion" is a subtlety that does not survive the retelling. The policy has to be defensible in public, not merely correct in engineering.</li>
+        <li><strong>Cabin-class prioritisation is more exposed still.</strong> Differentiating connectivity by cabin is normal commercially and reads badly out of context. It needs a published minimum service level for every cabin before it is switched on, and an internal decision that the airline is prepared to explain it.</li>
+        <li><strong>The MVNO proposal is a different business.</strong> Becoming a mobile operator, even a virtual one, brings licensing, support, billing and churn into an airline that does none of those today. Reselling captures a large share of the value at a fraction of the complexity, and the paper may be wrong to treat ownership as the destination.</li>
+        <li><strong>Most of the benefit may be available without the hardware.</strong> Leverage, portability and coverage notice are contract terms. If the qualification work is done and the contract is right, the second aperture may never need buying — an argument for Horizon 1 and against rushing Horizon 2.</li>
+      </ul>
+      <p class="cap2" style="margin-top:12px">All eight are serious. None argues against the first phase, which is measurement, specification and contract language — reversible, inexpensive, and valuable under every one of these objections. <strong>That asymmetry is the actual recommendation of this paper.</strong></p>
+    </div>
+  </div>
+</section>
+
+<section id="s19">
+  <div class="sh">
+    <span class="t">19</span>
+    <h3>What we don't know</h3>
+    <p>Ranked by how much the answer would change the recommendations, with what it would take to find out.</p>
+  </div>
+
+  <figure>
+    <div class="tw">
+      <table class="w1">
+        <thead><tr>
+          <th style="min-width:40px">#</th>
+          <th style="min-width:280px">Open question</th>
+          <th style="min-width:200px">Why it matters</th>
+          <th style="min-width:210px">How to answer it</th>
+          <th style="min-width:110px">Effort</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="n">1</td><td><b>What fraction of nominal beam capacity does an Emirates aircraft actually receive</b>, by region and time of day?</td><td>Largest single uncertainty in the capacity model. Changes every conclusion in section 3.</td><td>Bearer-side agent on a sub-fleet, six months.</td><td><span class="pill p-ok">Low</span></td></tr>
+          <tr><td class="n">2</td><td><b>Does service actually drop over unauthorised airspace</b> — where, at what altitude, and for how long?</td><td>Converts section 4 from a map into a number. Decides whether the coverage gap is a real passenger problem or a paper one.</td><td>Same instrumentation, correlated with position.</td><td><span class="pill p-ok">Low</span></td></tr>
+          <tr><td class="n">3</td><td><b>On a full aircraft, is the constraint the satellite link or the cabin Wi-Fi?</b></td><td>Decides whether section 8 is the priority or a distraction. No published study has ever answered it.</td><td>Cabin sensors plus bearer agent on the same aircraft.</td><td><span class="pill p-ok">Low</span></td></tr>
+          <tr><td class="n">4</td><td><b>Where does the data collected by the portal actually go</b> — is the email and seat number joined to anything operational, or only to the marketing database?</td><td>Decides whether sections 9 and 13 are proposing new collection or merely the reconciliation of collection that already happens. Changes the cost of cabin awareness from a programme to a data-plumbing task.</td><td>Internal. One conversation with the team that owns the portal.</td><td><span class="pill p-ok">Low</span></td></tr>
+          <tr><td class="n">5</td><td><b>What is the real traffic mix in the cabin</b>, and what fraction is cacheable?</td><td>The whole caching business case. Also validates or destroys the heavy-user assumption.</td><td>Flow classification on the router, anonymised.</td><td><span class="pill p-warn">Medium</span></td></tr>
+          <tr><td class="n">6</td><td><b>Will Starlink V3 support aviation, on what terminal, and when?</b></td><td>Decides whether a second terminal retrofit is a 2029 event or never.</td><td>Direct supplier question. Ask it in writing.</td><td><span class="pill p-ok">Low</span></td></tr>
+          <tr><td class="n">7</td><td><b>What does Emirates actually pay per aircraft</b>, and how does it change at renewal?</td><td>All pricing in this paper is published list rate for business aviation and is certainly not the fleet rate.</td><td>Internal. Known to the airline, not to this author.</td><td><span class="pill p-ok">Low</span></td></tr>
+          <tr><td class="n">8</td><td><b>How does capacity pool across the three A380 terminals?</b></td><td>Determines whether the A380 has one 2 Gbps pipe or three 667 Mbps islands — a materially different cabin.</td><td>Supplier question, then verify by measurement.</td><td><span class="pill p-ok">Low</span></td></tr>
+          <tr><td class="n">9</td><td><b>Would a major streaming provider place a cache on an aircraft, and on what terms?</b></td><td>Gate two of the caching decision. Not a technical question.</td><td>Commercial conversation, via an aviation CDN partner.</td><td><span class="pill p-warn">Medium</span></td></tr>
+          <tr><td class="n">10</td><td><b>What is the drag and fuel cost of a second radome</b> on each type?</td><td>The recurring cost against which the whole second-bearer case is weighed.</td><td>Airframer or MRO assessment.</td><td><span class="pill p-warn">Medium</span></td></tr>
+          <tr><td class="n">11</td><td><b>Can the onboard cellular system be configured to admit Emirates MVNO identities?</b></td><td>Decides whether in-flight eSIM activation is real or marketing.</td><td>Onboard cellular operator and picocell vendor.</td><td><span class="pill p-warn">Medium</span></td></tr>
+          <tr><td class="n">12</td><td><b>What is the EASA and TDRA position on 6 GHz aboard aircraft?</b></td><td>The FCC rule is quoted here; Emirates is not a US carrier. Cannot be assumed to transfer.</td><td>Regulatory counsel.</td><td><span class="pill p-ok">Low</span></td></tr>
+          <tr><td class="n">13</td><td><b>Do cabin AP vendors disable DFS channels in flight, and on what basis?</b></td><td>Determines how much 5 GHz spectrum is genuinely available today.</td><td>Equipment supplier question.</td><td><span class="pill p-ok">Low</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figcaption><b>Figure 18.</b> Nine of the thirteen are answerable within one quarter, and six of those by the same instrumentation programme. That is the strongest practical argument for starting with measurement: <strong>one modest programme collapses most of the uncertainty in this paper.</strong></figcaption>
+  </figure>
+</section>
+
+<section id="s20">
+  <div class="sh">
+    <span class="t">20</span>
+    <h3>Evidence and provenance</h3>
+    <p>What is verified, what is estimated, and where each came from.</p>
+  </div>
+
+  <div class="cols">
+    <div class="body">
+      <h4>Primary sources</h4>
+      <ul>
+        <li><strong>Starlink's list of territories authorised for in-motion aviation use</strong> — read from Starlink's own help centre, 15 September 2026. The basis of section 4 and every count in it.</li>
+        <li><strong>Starlink V3 specification</strong> — 1 Tbps downlink, 160 Gbps uplink, 2,048 beams each way, six 400 Gbps optical links — from Starlink's published V3 material. No aviation claim appears in it.</li>
+        <li><strong>In-flight Starlink measurements</strong> — M. A. Ullah, L. Borgianni, H. Kokkinen, A. Anttonen and S. Giordano, <em>"A First Look at Starlink In-Flight Performance: An Intercontinental Empirical Study"</em>, VTT Technical Research Centre of Finland and University of Pisa, arXiv:2508.09839, August 2025. The source of the 17,000-foot uplink finding in section 5 and the gateway-distance evidence in section 10: median 64&nbsp;Mbps down and 24&nbsp;Mbps up for a single device, 33&nbsp;Mbps up above 17,000 feet against 20&nbsp;Mbps below, and RTT driven by distance to the serving ground station.</li>
+        <li><strong>Bluetooth channel plan and the adaptive-hopping floor</strong> — 79 channels of 1&nbsp;MHz across 2402–2480&nbsp;MHz, and the Core Specification's minimum hop set of 20 channels. The basis of Figure 7; the channel arithmetic against Wi-Fi 1, 6 and 11 is done in the figure itself and can be reproduced in a line of code.</li>
+        <li><strong>47 CFR §15.407</strong> — the 6 GHz aircraft provision, the DFS detection threshold and 10-second vacate requirement, and the TPC 6 dB requirement, quoted from the Code of Federal Regulations.</li>
+        <li><strong>Starlink constellation counts</strong> — the public satellite catalogue, data of 10 September 2026: 12,935 launched, 11,133 in orbit, 9,713 working.</li>
+        <li><strong>Emirates fleet and cabin configurations</strong> — the Emirates Group Annual Report 2024-25 fleet illustration and published cabin layouts. Passenger seat factor 78.9% for 2024-25 from the same report.</li>
+        <li><strong>Emirates route network</strong> — the published scheduled timetable, September 2026, cross-referenced destination by destination against the authorisation list.</li>
+        <li><strong>Constellation and aviation-programme milestones</strong> — regulatory filings and operator announcements, dated individually in section 14.</li>
+      </ul>
+    </div>
+    <div class="body">
+      <h4>Estimates, labelled as such wherever they appear</h4>
+      <ul>
+        <li><strong>Every input to the capacity model.</strong> Load factor, take-up, devices per passenger, concurrency, the traffic mix and the heavy-user class are modelled assumptions, not measurements. The model is a framework for reasoning, not evidence about any aircraft flying today.</li>
+        <li><strong>Crew complements</strong> and the cabin configurations of the 777-9, 777-8, 787-8 and 787-10, none of which Emirates has published.</li>
+        <li><strong>2030 satellite projections</strong>, which mix regulatory deadlines, operator statements and launch-rate extrapolation and should not be read as equivalent.</li>
+        <li><strong>All pricing</strong>, which is published list rate for business aviation and is certainly not what a fleet customer pays. Cited as evidence of direction, never of Emirates' cost.</li>
+        <li><strong>Great-circle routings</strong> in section 4, which are not filed tracks.</li>
+        <li><strong>The revenue arithmetic in section 13</strong>, which is illustrative and belongs in a business case rather than a strategy paper.</li>
+      </ul>
+      <h4>And two corrections worth recording</h4>
+      <p><strong>First.</strong> An early draft asserted that free connectivity yields first-party identified engagement data. That was an assumption, not an observation, and it was removed.</p>
+      <p><strong>Second, and it corrects the first.</strong> Emirates' own depiction of the portal — Figure 1 — shows that the form <em>does</em> ask for an email address and a seat number, with a combined age and marketing consent. So the replacement claim, that the portal captures nothing, was also wrong. <strong>Both drafts were wrong in opposite directions, and the paper now argues neither.</strong> What it argues instead is the distinction the evidence actually supports: identity is collected at the front door, but it is collected for marketing and not for the network — unverified, undeclared to operations, and joined to nothing about how the session went. That is a sharper and more actionable finding than either of the claims it replaced, and it was only reachable by looking at the artefact rather than reasoning about it.</p>
+      <p>The lesson is the one section 19 exists to serve. Two consecutive drafts got this wrong, in opposite directions, from the same cause: an assumption that went unchecked against a primary artefact. <strong>Where the rest of this paper is wrong, it will be wrong the same way.</strong></p>
+    </div>
+  </div>
+
+  <div class="callout ok">
+    <span class="l">The whole paper in one sentence</span>
+    <p>Emirates bought the best bearer in the world and should keep it — and the next four decisions, about the pipe, the map, the cabin radio and the layer in between, are the ones that determine whether that investment produces the best connectivity product in the sky or an expensive parity one. <strong>Three of the four are software and contracts, and the first phase of all four is measurement.</strong></p>
+  </div>
+</section>
+
+<footer>
+  Prepared by <a class="lnk" href="https://www.linkedin.com/in/olegfadin" target="_blank" rel="noopener">Aleh Fadzin</a> (aka Oleg Fadin) · September 2026 · For discussion with Emirates Engineering Projects — In-Flight Connectivity<br>
+  Starlink aviation authorisation list and V3 specification read from Starlink's published material, 15 September 2026 · Spectrum rules from 47 CFR §15.407 · Constellation counts from the public satellite catalogue and operator filings, dated individually · Emirates fleet, cabin configurations and seat factor from the Emirates Group Annual Report 2024-25 · Network from the published scheduled timetable, September 2026 · Aircraft profiles reproduced at true relative length from the Emirates Group Annual Report 2024-25 · Country outlines from Natural Earth, public domain · Cover and cabin photography from Emirates media material, reproduced for discussion purposes; the eSIM seatback screen in Figure 11 is a proposal and not a shipping Emirates product · Pricing is published list rate for business aviation, not any airline's contracted rate · Capacity and traffic figures are modelled assumptions and are identified as such throughout · Vendor names and marks appear as examples of a category and imply no recommendation, endorsement or commercial relationship; all marks remain the property of their respective owners
+</footer>
+
+</div>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/app2.js"></script>
+<script src="assets/app3.js"></script>
