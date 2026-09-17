@@ -585,6 +585,16 @@ footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--rule);font-fa
   </figure>
 
   <dl class="headline" id="capTiles" style="margin-top:34px"></dl>
+  <div class="panel" id="mitigationPanel" style="margin-top:12px">
+      <div class="sub2" style="margin-top:0;padding-top:0;border-top:0">Mitigations</div>
+      <div class="toggles">
+        <label class="tg"><input type="checkbox" id="mHeavy"> Shape heavy users (fair-use ceiling)</label>
+        <label class="tg"><input type="checkbox" id="mBg"> Suppress background sync</label>
+        <label class="tg"><input type="checkbox" id="mCache"> Onboard cache, 60% video hit rate</label>
+        <label class="tg"><input type="checkbox" id="mRes"> Streaming resolution ceiling (720p)</label>
+      </div>
+      <p class="model-feedback" id="mitigationStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+  </div>
 
   <figure>
     <div class="panel" style="margin-top:22px">
@@ -604,14 +614,7 @@ footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--rule);font-fa
       <div class="sub2">Link capacity</div>
       <div class="grid" id="g3"></div>
 
-      <div class="sub2">Mitigations</div>
-      <div class="toggles">
-        <label class="tg"><input type="checkbox" id="mHeavy"> Shape heavy users (fair-use ceiling)</label>
-        <label class="tg"><input type="checkbox" id="mBg"> Suppress background sync</label>
-        <label class="tg"><input type="checkbox" id="mCache"> Onboard cache, 60% video hit rate</label>
-        <label class="tg"><input type="checkbox" id="mRes"> Streaming resolution ceiling (720p)</label>
-      </div>
-      <p class="model-feedback" id="mitigationStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+
     </div>
     <figcaption><b>Figure 2 — assumptions.</b> Defaults describe a busy long-haul sector, not an average one. Networks are sized for the busy day; the "network-average sector" preset drops every input to Emirates' published system figures so the two cases can be compared directly.</figcaption>
   </figure>
