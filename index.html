@@ -1743,6 +1743,7 @@ footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--rule);font-fa
 <footer>
   Prepared by <a class="lnk" href="https://www.linkedin.com/in/olegfadin" target="_blank" rel="noopener">Aleh Fadzin</a> (aka Oleg Fadin) · September 2026 · For discussion with Emirates Engineering Projects — In-Flight Connectivity<br>
   Starlink aviation authorisation list and V3 specification read from Starlink's published material, 15 September 2026 · Spectrum rules from 47 CFR §15.407 · Constellation counts from the public satellite catalogue and operator filings, dated individually · Emirates fleet, cabin configurations and seat factor from the Emirates Group Annual Report 2024-25 · Network from the published scheduled timetable, September 2026 · Aircraft profiles reproduced at true relative length from the Emirates Group Annual Report 2024-25 · Country outlines from Natural Earth, public domain · Cover and cabin photography from Emirates media material, reproduced for discussion purposes; the eSIM seatback screen in Figure 11 is a proposal and not a shipping Emirates product · Pricing is published list rate for business aviation, not any airline's contracted rate · Capacity and traffic figures are modelled assumptions and are identified as such throughout · Vendor names and marks appear as examples of a category and imply no recommendation, endorsement or commercial relationship; all marks remain the property of their respective owners
+  <br><button type="button" class="privacy-toggle" id="analyticsSettings">Privacy &amp; analytics settings</button>
 </footer>
 
 </div>
@@ -1750,3 +1751,73 @@ footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--rule);font-fa
 <script src="assets/app.js?v=20260916-mitigations"></script>
 <script src="assets/app2.js"></script>
 <script src="assets/app3.js"></script>
+
+<style>
+.analytics-notice{position:fixed;z-index:1000;bottom:16px;left:16px;right:16px;max-width:650px;margin:auto;padding:18px 20px;background:var(--surface);color:var(--ink);border:1px solid var(--rule);box-shadow:0 8px 30px #0003;font-size:14px;line-height:1.45}
+.analytics-notice[hidden]{display:none}
+.analytics-notice p{margin:0 0 12px}.analytics-actions{display:flex;gap:10px;flex-wrap:wrap}.analytics-actions button,.privacy-toggle{font:inherit;cursor:pointer;padding:8px 14px;color:var(--ink);background:var(--surface2);border:1px solid var(--rule);border-radius:3px}.privacy-toggle{margin-top:15px;font-size:12px}.analytics-notice a{color:inherit;text-decoration:underline}
+@media print{.analytics-notice,.privacy-toggle{display:none!important}}
+</style>
+<aside class="analytics-notice" id="analyticsNotice" aria-label="Analytics preferences" hidden>
+  <p><strong>Optional visitor analytics</strong><br>This site uses Google Analytics, with your permission, to understand visits, approximate location, referral sources and interactions. Analytics cookies help distinguish returning browsers. No advertising features are enabled. You can change your choice in the footer.</p>
+  <p><a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">How Google processes this information</a></p>
+  <div class="analytics-actions"><button type="button" id="analyticsDecline">Decline</button><button type="button" id="analyticsAllow">Allow analytics</button></div>
+</aside>
+<script>
+(() => {
+  const measurementId = 'G-5371X1LKSF';
+  const preferenceKey = 'cabin-analytics-consent-v1';
+  const notice = document.getElementById('analyticsNotice');
+  let enabled = false;
+  let remembered = null;
+  try { remembered = JSON.parse(localStorage.getItem(preferenceKey)); } catch (_) {}
+  const valid = remembered && Date.now() - remembered.at < 180 * 86400000;
+  function remember(value) {
+    try { localStorage.setItem(preferenceKey, JSON.stringify({value, at: Date.now()})); } catch (_) {}
+  }
+  function enable() {
+    if (enabled) return;
+    enabled = true;
+    window['ga-disable-' + measurementId] = false;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ window.dataLayer.push(arguments); };
+    window.gtag('consent', 'default', {analytics_storage:'granted', ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied'});
+    window.gtag('js', new Date());
+    let referrer = '';
+    try { referrer = new URL(document.referrer).origin; } catch (_) {}
+    window.gtag('config', measurementId, {
+      allow_google_signals:false,
+      allow_ad_personalization_signals:false,
+      cookie_domain:'none',
+      cookie_path:'/cabin-network/',
+      page_location:location.origin + location.pathname,
+      page_referrer:referrer
+    });
+    const tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+    document.head.appendChild(tag);
+  }
+  document.getElementById('analyticsAllow').addEventListener('click', () => {
+    remember('granted'); notice.hidden = true; enable();
+  });
+  document.getElementById('analyticsDecline').addEventListener('click', () => {
+    remember('denied');
+    window['ga-disable-' + measurementId] = true;
+    document.cookie.split(';').forEach(cookie => {
+      const name = cookie.trim().split('=')[0];
+      if (name === '_ga' || name.startsWith('_ga_')) {
+        document.cookie = name + '=; Max-Age=0; Path=/cabin-network/; SameSite=Lax';
+      }
+    });
+    notice.hidden = true;
+    if (enabled) location.reload();
+  });
+  document.getElementById('analyticsSettings').addEventListener('click', () => {
+    notice.hidden = false;
+    document.getElementById('analyticsDecline').focus();
+  });
+  if (valid && remembered.value === 'granted') enable();
+  else if (!(valid && remembered.value === 'denied')) notice.hidden = false;
+})();
+</script>
